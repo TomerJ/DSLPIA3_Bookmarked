@@ -9,7 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^7.0.0",
+    "@fortawesome/free-regular-svg-icons": "^7.0.0",
+    "@fortawesome/free-solid-svg-icons": "^7.0.0",
+    "@fortawesome/react-fontawesome": "^0.2.3",
+    "argon2": "^0.43.1",
     "daisyui": "^5.0.48",
+    "dotenv": "^17.2.1",
+    "mysql2": "^3.14.2",
     "next": "15.4.4",
     "react": "19.1.0",
     "react-dom": "19.1.0"

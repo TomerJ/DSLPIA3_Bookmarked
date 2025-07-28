@@ -4,7 +4,7 @@ import { faBan } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useActionState } from "react";
 import Navbar from "../../components/nav";
-import { ProcessAdminLogin } from "./adminlogin";
+import { ProcessAdminLogin } from "../admin/adminlogin";
 
 export default function AdminLogin() {
     const [message, formAction] = useActionState(ProcessAdminLogin, null);
@@ -24,7 +24,7 @@ export default function AdminLogin() {
                             </div>
                         )}
                         <h1 className="text-2xl font-black">
-                            Administrator Login
+                            Administratorsssssss Login
                         </h1>
                         <p className="text-sm italic font-poppins">
                             You are logging in as a <b>club administrator</b>.
