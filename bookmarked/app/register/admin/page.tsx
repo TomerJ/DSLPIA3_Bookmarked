@@ -19,7 +19,7 @@ export default function AdminRegister() {
                 className="dots flex items-center justify-center"
                 style={{ height: "calc(100vh - 5rem)" }}
             >
-                <div className="container bg-base-100 lg:w-2/5 w-full h-full lg:h-auto drop-shadow-md">
+                <div className="container bg-base-100 lg:w-2/5 w-full h-full lg:h-fit-content drop-shadow-md">
                     <div className="mx-9 my-11 font-rubik">
                         <div className="flex flex-col gap-y-2  mb-4">
                             <div className="alert alert-warning text-sm">
