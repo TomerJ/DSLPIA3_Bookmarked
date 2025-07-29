@@ -8,6 +8,20 @@
     --font-montserrat: "Montserrat", sans-serif;
     --font-nunito: "Nunito", sans-serif;
     --font-rubik: "Rubik", sans-serif;
+
+    --container-3xs: 16rem;
+    --container-2xs: 18rem;
+    --container-xs: 20rem;
+    --container-sm: 24rem;
+    --container-md: 28rem;
+    --container-lg: 32rem;
+    --container-xl: 36rem;
+    --container-2xl: 42rem;
+    --container-3xl: 48rem;
+    --container-4xl: 56rem;
+    --container-5xl: 64rem;
+    --container-6xl: 72rem;
+    --container-7xl: 80rem;
 }
 
 @plugin "daisyui/theme" {
@@ -21,10 +35,10 @@
     --color-base-content: oklch(21% 0.034 264.665);
     --color-primary: "#ea4c3c";
     --color-primary-content: oklch(97% 0.014 343.198);
-    --color-secondary: oklch(60% 0.118 184.704);
+    --color-accent: oklch(60% 0.118 184.704);
+    --color-accent-content: oklch(98% 0.014 180.72);
+    --color-secondary: "#64728c";
     --color-secondary-content: oklch(98% 0.014 180.72);
-    --color-accent: oklch(57% 0.245 27.325);
-    --color-accent-content: oklch(97% 0.013 17.38);
     --color-neutral: oklch(21% 0.034 264.665);
     --color-neutral-content: oklch(98% 0.002 247.839);
     --color-info: oklch(71% 0.143 215.221);

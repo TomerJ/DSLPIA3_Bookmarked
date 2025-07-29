@@ -1,6 +1,6 @@
 "use client";
 
-import { faArrowLeft, faArrowRight, faAsterisk, faWarning } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useActionState } from "react";
 import Navbar from "../../components/nav";
@@ -21,23 +21,22 @@ export default function AdminRegister() {
             >
                 <div className="container bg-base-100 lg:w-11/12 w-full h-full lg:h-auto drop-shadow-md">
                     <div className="mx-9 my-11 font-rubik">
-
-
-                        <div className="flex justify-start mb-2">
+                        <h1 className="text-2xl font-black">Create new club</h1>
+                        <div className="flex justify-start">
                             <ul className="steps w-full">
-                                <li className="step step-info">Basic Information</li>
-                                <li className="step step-info">Configuration</li>
+                                <li className="step step-info">
+                                    Basic Information
+                                </li>
+                                <li className="step step-info">
+                                    Configuration
+                                </li>
                                 <li className="step step">Owner Profile</li>
                             </ul>
                         </div>
-                        <h1 className="text-2xl font-black">
-                            New Club
-                        </h1>
-
-
-
-
                         <div className="divider"></div>
+                        <h2 className="text-xl font-regular mb-2">
+                            Basic Information
+                        </h2>
 
                         <div className="font-inter">
                             <form action={formAction}>
@@ -60,38 +59,52 @@ export default function AdminRegister() {
                                     </fieldset>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                         <fieldset className="border border-base-300 p-2.5 rounded-lg">
-                                            <legend className="text-xs text-base-content fieldset-legend">Club Logo</legend>
-                                            <input type="file" className="file-input file-input-bordered w-full" />
-                                            <label className="label text-xs text-base-content mt-2">1000x2000 | Max size 2MB</label>
+                                            <legend className="text-xs text-base-content fieldset-legend">
+                                                Club Logo
+                                            </legend>
+                                            <input
+                                                type="file"
+                                                className="file-input file-input-bordered w-full"
+                                            />
+                                            <label className="label text-xs text-base-content mt-2">
+                                                1000x2000 | Max size 2MB
+                                            </label>
                                         </fieldset>
 
                                         <fieldset className="border border-base-300 p-2.5 rounded-lg">
-                                            <legend className="text-xs text-base-content fieldset-legend">Club Icon</legend>
-                                            <input type="file" className="file-input file-input-bordered w-full" />
-                                            <label className="label text-xs text-base-content mt-2">512x512 | Max size 2MB</label>
+                                            <legend className="text-xs text-base-content fieldset-legend">
+                                                Club Icon
+                                            </legend>
+                                            <input
+                                                type="file"
+                                                className="file-input file-input-bordered w-full"
+                                            />
+                                            <label className="label text-xs text-base-content mt-2">
+                                                512x512 | Max size 2MB
+                                            </label>
                                         </fieldset>
                                     </div>
 
-                                    <div className="flex float-right gap-x-1.5 mt-5">                                     
-                                    <button className="btn btn-accent rounded-md w-1/11">
-                                       <FontAwesomeIcon
-                                            icon={faArrowLeft}
-                                            className="mr-1"
-                                        /> Back 
-                                    </button>
-                                        <button className="btn btn-primary rounded-md w-1/11">
-                                            Next <FontAwesomeIcon
+                                    <div className="flex float-right gap-x-1.5 mt-7">
+                                        <button className="btn btn-accent btn-sm rounded-md w-1/11">
+                                            <FontAwesomeIcon
+                                                icon={faArrowLeft}
+                                                className="mr-1"
+                                            />{" "}
+                                            Back
+                                        </button>
+                                        <button className="btn btn-primary  btn-sm rounded-md w-1/11">
+                                            Next{" "}
+                                            <FontAwesomeIcon
                                                 icon={faArrowRight}
                                                 className="mr-1"
                                             />
-                                        </button></div>
-
-
+                                        </button>
+                                    </div>
                                 </div>
                             </form>
                         </div>
                     </div>
-
                 </div>
             </div>
         </>
