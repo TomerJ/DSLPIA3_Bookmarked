@@ -51,9 +51,7 @@ export async function Register(_: any, data: FormData) {
         };
     }
 
-    const png = jdenticon.toPng(username, 512, {
-        backColor: "#ffffff",
-    });
+    const png = jdenticon.toPng(username, 512, {});
     fs.writeFileSync("./testicon.png", png);
 
     if (password != confirmpassword.trim()) {

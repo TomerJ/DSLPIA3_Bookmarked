@@ -1,5 +1,3 @@
-"use client";
-
 import {
     faBookBookmark,
     faPencil,
@@ -7,17 +5,16 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useActionState } from "react";
 import Navbar from "../components/nav";
-import { Register } from "../register/register";
 
-export default function AdminRegister() {
-    const [actionState, formAction] = useActionState(Register, null);
-
+export default async function App() {
     return (
         <>
             <Navbar />
-            <div className="dots flex items-center justify-center py-10" style={{ minHeight: "calc(100vh - 5rem)" }}>
+            <div
+                className="dots flex items-center justify-center py-10"
+                style={{ minHeight: "calc(100vh - 5rem)" }}
+            >
                 <div className="lg:w-5/6 w-full p-9 lg:h-fit drop-shadow-md mx-auto my-auto flex flex-col gap-y-4">
                     <div className="p-9 bg-base-100 container w-full mx-auto h-full lg:h-auto drop-shadow-md">
                         <div className="font-rubik">
@@ -121,9 +118,15 @@ export default function AdminRegister() {
                                         <div className="text-xs uppercase font-semibold opacity-60 mb-1.5">
                                             Jason Respons
                                         </div>
-                                                                            <p className="list-col-wrap text-xs">
-                                        I was raised with the help of a white grandfather who survived a Depression to serve in Patton's Army during World War II and a white grandmother who worked on a bomber assembly line at Fort Leavenworth while he was overseas...
-                                    </p>
+                                        <p className="list-col-wrap text-xs">
+                                            I was raised with the help of a
+                                            white grandfather who survived a
+                                            Depression to serve in Patton's Army
+                                            during World War II and a white
+                                            grandmother who worked on a bomber
+                                            assembly line at Fort Leavenworth
+                                            while he was overseas...
+                                        </p>
                                     </div>
 
                                     <button className="btn btn-square btn-ghost">

@@ -1,6 +1,10 @@
-"use client";
-
-import { faEnvelope, faGear, faUser, faMagnifyingGlass, faFilePen } from "@fortawesome/free-solid-svg-icons";
+import {
+    faEnvelope,
+    faFilePen,
+    faGear,
+    faNewspaper,
+    faUser,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Navbar from "../components/nav";
 
@@ -38,13 +42,22 @@ export default function Admin() {
                         <li className="h-7">
                             <a href="#" className="py-3">
                                 <FontAwesomeIcon
+                                    icon={faNewspaper}
+                                    className="mr-1"
+                                />{" "}
+                                Announcements
+                            </a>
+                        </li>
+                        <li className="h-7">
+                            <a href="#" className="py-3">
+                                <FontAwesomeIcon
                                     icon={faEnvelope}
                                     className="mr-1"
                                 />{" "}
                                 Invites
                             </a>
                         </li>
-                                                <li className="h-7">
+                        <li className="h-7">
                             <a href="#" className="py-3">
                                 <FontAwesomeIcon
                                     icon={faFilePen}
