@@ -12,12 +12,9 @@ export default function LoginPage() {
     return (
         <>
             <Navbar />
-            <div
-                className="dots flex items-center justify-center"
-                style={{ height: "calc(100vh - 5rem)" }}
-            >
-                <div className="container bg-base-100 lg:w-2/5 w-full h-full lg:h-fit drop-shadow-md">
-                    <div className="mx-9 my-11 font-rubik">
+                <div className="dots flex items-center justify-center py-10" style={{ minHeight: "calc(100vh - 5rem)" }}>
+                <div className="container bg-base-100 lg:w-2/5 w-full p-9 lg:h-fit drop-shadow-md mx-auto my-auto">
+                    <div className="font-rubik">
                         <div className="flex flex-col gap-y-2">
                             {actionState && actionState.error && (
                                 <div className="alert alert-error mb-4 text-sm">

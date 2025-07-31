@@ -17,13 +17,10 @@ export default function AdminRegister() {
     return (
         <>
             <Navbar />
-            <div
-                className="dots flex items-center justify-center w-full  overflow-y-auto"
-                style={{ minHeight: "calc(100vh - 5rem)" }}
-            >
-                <div className="w-full mx-auto px-4 flex flex-col">
+<div className="dots flex items-center justify-center py-10" style={{ minHeight: "calc(100vh - 5rem)" }}>
+                <div className="container bg-base-100 lg:w-4/5 w-full p-9 lg:h-fit drop-shadow-md mx-auto my-auto">
                     <div className="bg-base-100 container w-full my-2 mx-auto h-full lg:h-auto drop-shadow-md">
-                        <div className="mx-9 my-11 font-rubik">
+                        <div className="font-rubik">
                             <h1 className="text-xl font-medium">
                                 Good Evening,
                             </h1>
