@@ -17,15 +17,15 @@ export default function AdminRegister() {
     return (
         <>
             <Navbar />
-<div className="dots flex items-center justify-center py-10" style={{ minHeight: "calc(100vh - 5rem)" }}>
-                <div className="container bg-base-100 lg:w-4/5 w-full p-9 lg:h-fit drop-shadow-md mx-auto my-auto">
-                    <div className="bg-base-100 container w-full my-2 mx-auto h-full lg:h-auto drop-shadow-md">
+            <div className="dots flex items-center justify-center py-10" style={{ minHeight: "calc(100vh - 5rem)" }}>
+                <div className="lg:w-5/6 w-full p-9 lg:h-fit drop-shadow-md mx-auto my-auto flex flex-col gap-y-4">
+                    <div className="p-9 bg-base-100 container w-full mx-auto h-full lg:h-auto drop-shadow-md">
                         <div className="font-rubik">
                             <h1 className="text-xl font-medium">
                                 Good Evening,
                             </h1>
                             <h1 className="text-3xl font-black">
-                                TestyMcTestFace12345
+                                Micheal Beak
                             </h1>
 
                             <div className="stats shadow mt-4 w-full stats-vertical lg:stats-horizontal">
@@ -94,8 +94,8 @@ export default function AdminRegister() {
                         </div>
                     </div>
 
-                    <div className="bg-base-100 container w-full mx-auto py-2 my-2 h-full lg:h-auto drop-shadow-md">
-                        <div className="mx-9 my-11 font-rubik">
+                    <div className="p-9 bg-base-100 container w-full mx-auto h-full lg:h-auto drop-shadow-md">
+                        <div className="font-rubik">
                             <h2 className="text-xl font-normal mb-2">
                                 Newest Reviews
                             </h2>
@@ -108,8 +108,8 @@ export default function AdminRegister() {
                                 <li className="list-row">
                                     <div>
                                         <img
-                                            className="size-10 rounded-box"
-                                            src="https://img.daisyui.com/images/profile/demo/1@94.webp"
+                                            className="h-15 rounded-box"
+                                            src="https://books.google.com/books/content?id=kotPYEqx7kMC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
                                         />
                                     </div>
                                     <div>
@@ -118,18 +118,14 @@ export default function AdminRegister() {
                                             Nineteen-Eighty-Four: How blah blah
                                             blah
                                         </div>
-                                        <div className="text-xs uppercase font-semibold opacity-60">
-                                            Remaining Reason
+                                        <div className="text-xs uppercase font-semibold opacity-60 mb-1.5">
+                                            Jason Respons
                                         </div>
-                                    </div>
-                                    <p className="list-col-wrap text-xs">
-                                        "Remaining Reason" became an instant
-                                        hit, praised for its haunting sound and
-                                        emotional depth. A viral performance
-                                        brought it widespread recognition,
-                                        making it one of Dio Lupa’s most iconic
-                                        tracks.
+                                                                            <p className="list-col-wrap text-xs">
+                                        I was raised with the help of a white grandfather who survived a Depression to serve in Patton's Army during World War II and a white grandmother who worked on a bomber assembly line at Fort Leavenworth while he was overseas...
                                     </p>
+                                    </div>
+
                                     <button className="btn btn-square btn-ghost">
                                         <svg
                                             className="size-[1.2em]"
