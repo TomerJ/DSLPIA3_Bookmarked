@@ -46,7 +46,7 @@ export default async function Navbar({
                     <li>
                         <a className="flex items-center">
                             <FontAwesomeIcon
-                                className="h-3.5"
+                                className="h-3.5 w-4"
                                 icon={faPencil}
                             />{" "}
                             Reviews

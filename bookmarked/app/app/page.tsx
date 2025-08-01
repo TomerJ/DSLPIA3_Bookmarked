@@ -22,7 +22,7 @@ export default async function App() {
                                 Good Evening,
                             </h1>
                             <h1 className="text-3xl font-black">
-                                Micheal Beak
+                                Marvin Beak
                             </h1>
 
                             <div className="stats shadow mt-4 w-full stats-vertical lg:stats-horizontal">

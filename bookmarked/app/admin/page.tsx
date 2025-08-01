@@ -1,8 +1,13 @@
 import {
+    faCheck,
+    faClipboardCheck,
     faEnvelope,
     faFilePen,
+    faFlag,
     faGear,
+    faMagnifyingGlass,
     faNewspaper,
+    faShield,
     faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,7 +16,7 @@ import Navbar from "../components/nav";
 export default function Admin() {
     return (
         <>
-            <Navbar />
+            <Navbar showUser={false} />
             <div
                 className="flex min-h-[calc(100vh-5rem)]"
                 style={{ height: "calc(100vh - 5rem)" }}
@@ -22,19 +27,19 @@ export default function Admin() {
                      flex flex-col w-full gap-y-4"
                     >
                         <li className="h-7">
-                            <a href="#" className="py-3 flex">
+                            <a href="#" className="py-3">
                                 <FontAwesomeIcon
-                                    icon={faGear}
-                                    className="mr-1"
+                                    icon={faFlag}
+                                    className="mr-1 h-3.5 w-3.5"
                                 />{" "}
-                                Settings
+                                Review Approval
                             </a>
                         </li>
                         <li className="h-7">
                             <a href="#" className="py-3">
                                 <FontAwesomeIcon
                                     icon={faUser}
-                                    className="mr-1"
+                                    className="mr-1 h-3.5 w-3.5"
                                 />{" "}
                                 Members
                             </a>
@@ -43,7 +48,7 @@ export default function Admin() {
                             <a href="#" className="py-3">
                                 <FontAwesomeIcon
                                     icon={faNewspaper}
-                                    className="mr-1"
+                                    className="mr-1 h-3.5 w-3.5"
                                 />{" "}
                                 Announcements
                             </a>
@@ -52,7 +57,7 @@ export default function Admin() {
                             <a href="#" className="py-3">
                                 <FontAwesomeIcon
                                     icon={faEnvelope}
-                                    className="mr-1"
+                                    className="mr-1 h-3.5 w-3.5"
                                 />{" "}
                                 Invites
                             </a>
@@ -60,8 +65,8 @@ export default function Admin() {
                         <li className="h-7">
                             <a href="#" className="py-3">
                                 <FontAwesomeIcon
-                                    icon={faFilePen}
-                                    className="mr-1"
+                                    icon={faMagnifyingGlass}
+                                    className="mr-1 h-3.5 w-3.5"
                                 />{" "}
                                 Audit Log
                             </a>
