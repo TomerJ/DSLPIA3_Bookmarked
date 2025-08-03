@@ -1,13 +1,7 @@
 import {
-    faCheck,
-    faClipboardCheck,
-    faEnvelope,
-    faFilePen,
     faFlag,
-    faGear,
     faMagnifyingGlass,
     faNewspaper,
-    faShield,
     faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -16,7 +10,7 @@ import Navbar from "../components/nav";
 export default function Admin() {
     return (
         <>
-            <Navbar showUser={false} />
+            <Navbar />
             <div
                 className="flex min-h-[calc(100vh-5rem)]"
                 style={{ height: "calc(100vh - 5rem)" }}
@@ -51,15 +45,6 @@ export default function Admin() {
                                     className="mr-1 h-3.5 w-3.5"
                                 />{" "}
                                 Announcements
-                            </a>
-                        </li>
-                        <li className="h-7">
-                            <a href="#" className="py-3">
-                                <FontAwesomeIcon
-                                    icon={faEnvelope}
-                                    className="mr-1 h-3.5 w-3.5"
-                                />{" "}
-                                Invites
                             </a>
                         </li>
                         <li className="h-7">

@@ -80,7 +80,7 @@ export default function LoginForm() {
                                     />
                                 </fieldset>
 
-                                <button className="btn btn-primary rounded-md mt-5">
+                                <button className="btn btn-primary rounded-md mt-5 font-inter">
                                     Login
                                 </button>
                             </div>

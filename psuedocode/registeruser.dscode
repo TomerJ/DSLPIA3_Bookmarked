@@ -1,0 +1,4 @@
+FUNCTION functionName (parameters)
+BEGIN
+    VALIDATE 
+END

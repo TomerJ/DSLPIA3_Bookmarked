@@ -154,7 +154,7 @@ export default function RegisterForm() {
                             />
                         </fieldset>
 
-                        <button className="btn btn-primary rounded-md mt-5">
+                        <button className="btn btn-primary rounded-md mt-5 font-inter">
                             Create Account
                         </button>
                     </div>

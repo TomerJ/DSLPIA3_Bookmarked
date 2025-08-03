@@ -5,7 +5,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useActionState, useEffect, useState } from "react";
 import { Login } from "./elevate";
 
-export default function LoginForm({username = "NO USER"}: {username?: string}) {
+export default function LoginForm({
+    username = "NO USER",
+}: {
+    username?: string;
+}) {
     const [actionState, formAction] = useActionState(Login, null);
     const [submitted, setSubmitted] = useState(false);
 
@@ -31,13 +35,10 @@ export default function LoginForm({username = "NO USER"}: {username?: string}) {
                             </div>
                         )}
                     </div>
-                    <h1 className="text-2xl font-black">
-                        Elevation Required
-                    </h1>
+                    <h1 className="text-2xl font-black">Elevation Required</h1>
                     <p className="text-sm italic font-poppins">
-                        The page you are attempting to access
-                        requires elevation. Please re-enter your
-                        login details below:
+                        The page you are attempting to access requires
+                        elevation. Please re-enter your login details below:
                     </p>
                     <div className="divider"></div>
 
@@ -59,9 +60,7 @@ export default function LoginForm({username = "NO USER"}: {username?: string}) {
                                         disabled
                                         className="input w-full focus:outline-none focus:border-none focus:ring-1 transition-all focus:ring-orange-700"
                                         placeholder="Type here"
-                                        defaultValue={
-                                            username
-                                        }
+                                        defaultValue={username}
                                     />
                                 </fieldset>
                                 <fieldset className="fieldset">
@@ -81,7 +80,7 @@ export default function LoginForm({username = "NO USER"}: {username?: string}) {
                                     />
                                 </fieldset>
 
-                                <button className="btn btn-primary rounded-md mt-5">
+                                <button className="btn btn-primary rounded-md mt-5 font-inter">
                                     Login
                                 </button>
                             </div>

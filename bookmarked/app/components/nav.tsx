@@ -55,7 +55,7 @@ export default async function Navbar({
                     <li>
                         <a className="flex items-center">
                             <FontAwesomeIcon className="h-3.5" icon={faUser} />{" "}
-                            Profiles
+                            Members
                         </a>
                     </li>
                 </ul>

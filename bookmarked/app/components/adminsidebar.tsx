@@ -1,21 +1,13 @@
 import {
-    faEnvelope,
     faFlag,
-    faGavel,
-    faGears,
     faHome,
     faMagnifyingGlass,
     faNewspaper,
-    faPencil,
     faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { GetUserInfo } from "../util/securepage";
-import Logout from "./logout";
 
 export default async function AdminSidebar() {
-
-
     return (
         <>
             <aside className="w-80 py-4 px-2 bg-base-100 hidden lg:block">
@@ -50,15 +42,7 @@ export default async function AdminSidebar() {
                             Announcements
                         </a>
                     </li>
-                    <li className="h-7">
-                        <a href="#" className="py-3">
-                            <FontAwesomeIcon
-                                icon={faEnvelope}
-                                className="mr-1 h-3.5 w-3.5"
-                            />{" "}
-                            Invites
-                        </a>
-                    </li>
+
                     <li className="h-7">
                         <a href="#" className="py-3">
                             <FontAwesomeIcon
@@ -73,19 +57,13 @@ export default async function AdminSidebar() {
 
             <div className="dock lg:hidden font-inter">
                 <button className="dock-active">
-                    <FontAwesomeIcon
-                        icon={faFlag}
-                        className="h-3.5 w-3.5"
-                    />
+                    <FontAwesomeIcon icon={faFlag} className="h-3.5 w-3.5" />
 
                     <span className="dock-label">Moderation</span>
                 </button>
 
                 <button>
-                    <FontAwesomeIcon
-                        icon={faUser}
-                        className="h-3.5 w-3.5"
-                    />
+                    <FontAwesomeIcon icon={faUser} className="h-3.5 w-3.5" />
 
                     <span className="dock-label">Members</span>
                 </button>
@@ -98,14 +76,7 @@ export default async function AdminSidebar() {
 
                     <span className="dock-label">Announcements</span>
                 </button>
-                <button>
-                    <FontAwesomeIcon
-                        icon={faEnvelope}
-                        className="h-3.5 w-3.5"
-                    />
 
-                    <span className="dock-label">Invites</span>
-                </button>
                 <button>
                     <FontAwesomeIcon
                         icon={faMagnifyingGlass}
@@ -115,16 +86,11 @@ export default async function AdminSidebar() {
                     <span className="dock-label">Audit Log</span>
                 </button>
                 <button>
-                    <FontAwesomeIcon
-                        icon={faHome}
-                        className="h-3.5 w-3.5"
-                    />
+                    <FontAwesomeIcon icon={faHome} className="h-3.5 w-3.5" />
 
                     <span className="dock-label">Return to club</span>
                 </button>
-
-            </div></>
-
-
+            </div>
+        </>
     );
 }

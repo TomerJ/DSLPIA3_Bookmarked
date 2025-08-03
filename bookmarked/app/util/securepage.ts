@@ -13,8 +13,8 @@ async function getSession(): Promise<RowDataPacket | null> {
     }
     console.log(sessionToken)
     const [sessionRes] = await connection.execute<RowDataPacket[]>(
-        "SELECT users.*, sessions.started_at, sessions.elevated_at FROM sessions JOIN users ON sessions.user = users.id WHERE sessions.session_token = ?",
-        [sessionToken]
+        "SELECT users.*, sessions.started_at, sessions.elevated_at FROM sessions JOIN users ON sessions.user = users.id WHERE sessions.session_token = ? AND sessions.started_at < ?",
+        [sessionToken, new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)]
     );
     connection.release();
     return sessionRes[0];
