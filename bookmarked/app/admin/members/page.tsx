@@ -18,7 +18,7 @@ export default function Admin({
 }) {
     return (
         <>
-            <Navbar />
+            <Navbar showUser={false}/>
             <div
                 className="flex min-h-[calc(100vh-5rem)] w-full"
                 style={{ height: "calc(100vh - 5rem)" }}

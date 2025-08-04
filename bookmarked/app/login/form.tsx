@@ -86,6 +86,7 @@ export default function LoginForm() {
                             </div>
                         </form>
                     </div>
+                    <p className="italic text-xs mt-3">Don't have an account? Register <a href="/register" className="text-indigo-500">here</a></p>
                 </div>
             )}
         </div>

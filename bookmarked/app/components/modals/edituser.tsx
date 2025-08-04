@@ -41,27 +41,56 @@ export default function EditUser({ showUser = true }: { showUser?: boolean }) {
                                 placeholder="Type here"
                             />
                         </fieldset>
-                        <fieldset className="fieldset">
+<fieldset className="fieldset">
                             <legend className="fieldset-legend">
-                                Date of Birth
+                                Birthday
                             </legend>
-                            <input
-                                type="text"
-                                name="username"
-                                className="input w-full focus:outline-none focus:border-none focus:ring-1 transition-all focus:ring-orange-700"
-                                placeholder="Type here"
-                            />
-                        </fieldset>
-                        <fieldset className="fieldset">
-                            <legend className="fieldset-legend">
-                                XP Level
-                            </legend>
-                            <input
-                                type="text"
-                                name="username"
-                                className="input w-full focus:outline-none focus:border-none focus:ring-1 transition-all focus:ring-orange-700"
-                                placeholder="Type here"
-                            />
+                            <div className="flex join">
+                                {" "}
+                                <select
+                                    name="dob-day"
+                                    className="select focus:outline-none  focus:border-none  focus:ring-1 focus:ring-orange-700 join-item"
+                                >
+                                    <option disabled value="">
+                                        Day
+                                    </option>
+                                    {Array.from({ length: 31 }, (_, i) => (
+                                        <option key={i + 1} value={i + 1}>
+                                            {i + 1}
+                                        </option>
+                                    ))}
+                                </select>
+                                <select
+                                    name="dob-month"
+                                    className="select focus:outline-none  focus:border-none  focus:ring-1 focus:ring-orange-700 join-item"
+                                >
+                                    <option disabled value="">
+                                        Month
+                                    </option>
+                                    {Array.from({ length: 31 }, (_, i) => (
+                                        <option key={i + 1} value={i + 1}>
+                                            {i + 1}
+                                        </option>
+                                    ))}
+                                </select>
+                                <select
+                                    name="dob-year"
+                                    className="select focus:outline-none  focus:border-none  focus:ring-1 focus:ring-orange-700 join-item"
+                                >
+                                    <option disabled value="">
+                                        Year
+                                    </option>
+                                    {Array.from({ length: 120 }, (_, i) => {
+                                        const year =
+                                            new Date().getFullYear() - i;
+                                        return (
+                                            <option key={year} value={year}>
+                                                {year}
+                                            </option>
+                                        );
+                                    })}
+                                </select>
+                            </div>
                         </fieldset>
                         <fieldset className="fieldset">
                             <legend className="fieldset-legend">Avatar</legend>

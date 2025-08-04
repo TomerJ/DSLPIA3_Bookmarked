@@ -1,4 +1,5 @@
 import {
+    faEnvelope,
     faFlag,
     faHome,
     faMagnifyingGlass,
@@ -31,6 +32,15 @@ export default async function AdminSidebar() {
                                 className="mr-1 h-3.5 w-3.5"
                             />{" "}
                             Members
+                        </a>
+                    </li>
+                                <li className="h-7">
+                        <a href="#" className="py-3">
+                            <FontAwesomeIcon
+                                icon={faEnvelope}
+                                className="mr-1 h-3.5 w-3.5"
+                            />{" "}
+                            Invites
                         </a>
                     </li>
                     <li className="h-7">
@@ -67,7 +77,11 @@ export default async function AdminSidebar() {
 
                     <span className="dock-label">Members</span>
                 </button>
+                <button>
+                    <FontAwesomeIcon icon={faEnvelope} className="h-3.5 w-3.5" />
 
+                    <span className="dock-label">Invites</span>
+                </button>
                 <button>
                     <FontAwesomeIcon
                         icon={faNewspaper}

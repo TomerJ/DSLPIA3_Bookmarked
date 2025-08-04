@@ -1,4 +1,14 @@
-FUNCTION functionName (parameters)
+FUNCTION validateAccessCode (code)
+BEGIN
+    QUERY select from access_codes where code is inputted code
+    IF condition THEN
+        
+    ENDIF 
+END
+
+
+
+FUNCTION signup (parameters)
 BEGIN
     VALIDATE 
 END

@@ -1,4 +1,5 @@
 import {
+    faBookBookmark,
     faGavel,
     faGears,
     faHome,
@@ -50,6 +51,15 @@ export default async function Navbar({
                                 icon={faPencil}
                             />{" "}
                             Reviews
+                        </a>
+                    </li>
+                                        <li>
+                        <a className="flex items-center">
+                            <FontAwesomeIcon
+                                className="h-3.5 w-4"
+                                icon={faBookBookmark}
+                            />{" "}
+                            My Reading
                         </a>
                     </li>
                     <li>

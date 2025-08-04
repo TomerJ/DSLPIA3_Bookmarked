@@ -1,5 +1,6 @@
 "use client";
 import {
+    faBookmark,
     faPencil,
     faShield,
     faTrash,
@@ -8,6 +9,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import EditPermissions from "./modals/editperms";
 import EditUser from "./modals/edituser";
+import ManageProgress from "./modals/progress";
 
 export default function Membercontrol({
     status,
@@ -16,6 +18,19 @@ export default function Membercontrol({
 }) {
     return (
         <div className="flex gap-x-1">
+            <div className="tooltip tooltip-bottom" data-tip="Manage Progress">
+                <button className="btn btn-info rounded-sm btn-xs" onClick={() => {
+                    (
+                        document.getElementById(
+                            "manage_progress"
+                        ) as HTMLDialogElement
+                    )?.showModal();
+                }}>
+                    {" "}
+                    <FontAwesomeIcon icon={faBookmark} className="h-3.5 w-3.5" />
+                </button>
+                <ManageProgress />
+            </div>
             <div className="tooltip tooltip-bottom" data-tip="Edit Profile">
                 <button className="btn btn-secondary rounded-sm btn-xs">
                     {" "}

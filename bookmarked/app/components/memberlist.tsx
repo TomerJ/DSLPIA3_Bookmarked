@@ -16,7 +16,6 @@ export default function Memberlist() {
                     <thead>
                         <tr className="text-sm">
                             <th></th>
-                            <th></th>
                             <th className="font-inter text-xs">Name</th>
                             <th className="font-inter text-xs">Username</th>
                             <th className="font-inter text-xs">Email</th>
@@ -31,13 +30,12 @@ export default function Memberlist() {
                     <tbody>
                         {/* row 1 */}
                         <tr>
-                            <td>-</td>
                             <td>1</td>
                             <td>Cy Ganderton</td>
                             <td>Quality Control Specialist</td>
-                            <td>Blue</td>
-                            <td>Quality Control Specialist</td>
-                            <td>Blue</td>
+                            <td>yourmother@hotmail.com</td>
+                            <td>02/02/2009</td>
+                            <td>True</td>
                             <td>4</td>
                             <td>
                                 <Membercontrol />
