@@ -11,6 +11,9 @@ export default function RegisterForm() {
     const [actionState, formAction] = useActionState(Register, null);
 
     return (
+     <>
        <RegisterAccessCodeForm/>
+       {/*<RegisterMainForm/> */}
+       </>
     );
 }

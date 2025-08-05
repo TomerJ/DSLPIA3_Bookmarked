@@ -44,7 +44,7 @@ export default function RegisterAccessCodeForm() {
                         </fieldset>
 
                         <button className="btn btn-primary rounded-md mt-5 font-inter">
-                            Create Account
+                            Continue
                         </button>
                     </div>
                 </form>

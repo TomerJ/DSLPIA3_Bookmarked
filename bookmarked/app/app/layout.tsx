@@ -5,6 +5,6 @@ export default async function AppLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-    await SecurePage();
+   // await SecurePage();
     return <>{children}</>;
 }

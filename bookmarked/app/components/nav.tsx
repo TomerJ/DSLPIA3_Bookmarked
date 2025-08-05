@@ -5,6 +5,7 @@ import {
     faHome,
     faNewspaper,
     faPencil,
+    faStar,
     faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -83,10 +84,16 @@ export default async function Navbar({
                                         className="h-6 bg-base-200 rounded-sm p-1"
                                     ></img>{" "}
                                     {userinfo?.username}
-                                    {Boolean(userinfo?.admin) && (
+                                    {userinfo?.privilege == 'admin' && (
                                         <div className="badge badge-neutral badge-sm">
                                             <FontAwesomeIcon icon={faGavel} />
                                             Admin
+                                        </div>
+                                    )}
+                                    {userinfo?.privilege == 'regular' && (
+                                        <div className="badge badge-accent badge-sm">
+                                            <FontAwesomeIcon icon={faStar} />
+                                            Regular
                                         </div>
                                     )}
                                 </summary>

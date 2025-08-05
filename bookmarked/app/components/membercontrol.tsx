@@ -59,7 +59,7 @@ export default function Membercontrol({
                 </button>
                 <EditUser />
             </div>
-            <div className="tooltip tooltip-bottom" data-tip="Edit Permissions">
+            <div className="tooltip tooltip-bottom" data-tip="Edit Privilege Level">
                 <button
                     className="btn btn-accent rounded-sm btn-xs"
                     onClick={() => {

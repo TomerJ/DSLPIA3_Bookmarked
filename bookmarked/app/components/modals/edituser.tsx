@@ -10,17 +10,6 @@ export default function EditUser({ showUser = true }: { showUser?: boolean }) {
                     <div className="grid grid-cols-1 gap-2">
                         <fieldset className="fieldset">
                             <legend className="fieldset-legend">
-                                Full Name
-                            </legend>
-                            <input
-                                type="text"
-                                name="username"
-                                className="input w-full focus:outline-none focus:border-none focus:ring-1 transition-all focus:ring-orange-700"
-                                placeholder="Type here"
-                            />
-                        </fieldset>
-                        <fieldset className="fieldset">
-                            <legend className="fieldset-legend">
                                 Username
                             </legend>
                             <input

@@ -16,34 +16,34 @@ export default function EditPermissions({
     status?: (message: string, type: "success" | "danger" | "warning") => void;
     adminDefault?: boolean;
 }) {
-    const [enableAdmin, setEnableAdmin] = useState(false);
+    const [role, setRole] = useState("Regular");
     const [confirmInput, setConfirmInput] = useState("");
+
+    const isGrantingAdmin = role === "Admin";
 
     return (
         <dialog id="edit_perms" className="modal">
             <div className="modal-box w-xl">
                 <h3 className="font-bold text-lg mb-2 my-0">
-                    Editing Permissions for {user.name}
+                    Editing Privileges for {user.name}
                 </h3>
                 <div className="divider my-0"></div>
                 <div className="grid grid-cols-1 gap-2">
                     <fieldset className="fieldset">
-                        <legend className="fieldset-legend"></legend>
-                        <label className="label">
-                            <input
-                                type="checkbox"
-                                defaultChecked
-                                className="toggle toggle-sm mr-0.5"
-                                onChange={(event) => {
-                                    setEnableAdmin(event.target.checked);
-                                    console.log(event.target.checked);
-                                }}
-                            />
-                            Grant Administrator Privileges
-                        </label>
+                        <legend className="fieldset-legend">Privilege Level</legend>
+                            <select
+                                className="select select-sm w-full focus:outline-none focus:border-none focus:ring-1 transition-all"
+                                value={role}
+                                onChange={(e) => setRole(e.target.value)}
+                            >
+                                <option value="Admin">Admin</option>
+                                <option value="Regular">Regular</option>
+                                <option value="Member">Member</option>
+                            </select>
                     </fieldset>
                 </div>
-                {enableAdmin && !adminDefault && (
+
+                {isGrantingAdmin && !adminDefault && (
                     <div
                         role="alert"
                         className="alert alert-warning alert-soft mt-2"
@@ -58,7 +58,7 @@ export default function EditPermissions({
                                     </span>{" "}
                                     to {user.name}.
                                 </p>
-                                <hr></hr>
+                                <hr />
                                 <p className="text-xs">
                                     To continue, please type their username
                                     (case sensitive) in the box below:
@@ -79,15 +79,16 @@ export default function EditPermissions({
                         </div>
                     </div>
                 )}
+
                 <div className="modal-action flex">
                     <div className="flex gap-2">
                         <form>
                             <button
                                 className="btn btn-sm btn-success rounded-sm"
                                 disabled={
-                                    enableAdmin &&
+                                    isGrantingAdmin &&
                                     !adminDefault &&
-                                    confirmInput != user.name
+                                    confirmInput !== user.name
                                 }
                             >
                                 Update Permissions

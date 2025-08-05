@@ -6,7 +6,7 @@ import type * as jdenticonTypes from "jdenticon";
 var jdenticon = require("jdenticon") as typeof jdenticonTypes;
 
 import { systemPool } from "@util/connect";
-import { RowDataPacket } from "mysql2/promise";
+import { ResultSetHeader, RowDataPacket } from "mysql2/promise";
 import { redirect } from "next/navigation";
 export async function Register(_: any, data: FormData) {
     let dob = {
@@ -51,7 +51,9 @@ export async function Register(_: any, data: FormData) {
         };
     }
 
-    const png = jdenticon.toPng(username, 512, {});
+    const png = jdenticon.toPng(username, 512, {
+        backColor: "#ffffff"
+    });
     fs.writeFileSync("./testicon.png", png);
 
     if (password != confirmpassword.trim()) {
@@ -92,9 +94,16 @@ export async function Register(_: any, data: FormData) {
     }
 
     const date = `${dob.year}-${dob.month}-${dob.day}`;
-    await connection.execute(
+    const [userResult] = await connection.execute<ResultSetHeader>(
         "INSERT INTO users (username, displayname, email, avatar, password, dob) VALUES (?, ?, ?, ?, ?, ?)",
         [username, username, email, png, await argon2.hash(password), date]
+    );
+
+    const userId = userResult.insertId;
+
+    await connection.execute(
+        "INSERT INTO profiles (user_id, displayname, email, avatar, password, dob) VALUES (?, ?, ?, ?, ?, ?)",
+        [userId, username, email, png, await argon2.hash(password), date]
     );
 
     connection.release();
