@@ -8,6 +8,15 @@ var jdenticon = require("jdenticon") as typeof jdenticonTypes;
 import { systemPool } from "@util/connect";
 import { ResultSetHeader, RowDataPacket } from "mysql2/promise";
 import { redirect } from "next/navigation";
+
+export async function ValidateCode(_: any, data: FormData) {
+    let code = data.get("accesscode") as string | null;
+    return {
+        success: true,
+        error: "YOUR MOTHER",
+    };
+}
+
 export async function Register(_: any, data: FormData) {
     let dob = {
         day: data.get("dob-day") as string | null,
@@ -52,7 +61,7 @@ export async function Register(_: any, data: FormData) {
     }
 
     const png = jdenticon.toPng(username, 512, {
-        backColor: "#ffffff"
+        backColor: "#ffffff",
     });
     fs.writeFileSync("./testicon.png", png);
 

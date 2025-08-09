@@ -54,7 +54,7 @@ export default async function Navbar({
                             Reviews
                         </a>
                     </li>
-                                        <li>
+                    <li>
                         <a className="flex items-center">
                             <FontAwesomeIcon
                                 className="h-3.5 w-4"
@@ -84,13 +84,13 @@ export default async function Navbar({
                                         className="h-6 bg-base-200 rounded-sm p-1"
                                     ></img>{" "}
                                     {userinfo?.username}
-                                    {userinfo?.privilege == 'admin' && (
+                                    {userinfo?.privilege == "admin" && (
                                         <div className="badge badge-neutral badge-sm">
                                             <FontAwesomeIcon icon={faGavel} />
                                             Admin
                                         </div>
                                     )}
-                                    {userinfo?.privilege == 'regular' && (
+                                    {userinfo?.privilege == "regular" && (
                                         <div className="badge badge-accent badge-sm">
                                             <FontAwesomeIcon icon={faStar} />
                                             Regular
@@ -104,7 +104,7 @@ export default async function Navbar({
                                             Settings
                                         </a>
                                     </li>
-                                    {Boolean(userinfo?.admin) && (
+                                    {userinfo?.privilege == "admin" && (
                                         <li>
                                             <a className="flex items-center">
                                                 <FontAwesomeIcon
