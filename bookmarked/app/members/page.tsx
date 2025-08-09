@@ -12,7 +12,7 @@ export default async function RegisterPage() {
         //"SELECT * FROM users JOIN profiles ON users.id = profiles.id",
         "SELECT * FROM users"
     );
-// console.log(userList)
+    // console.log(userList)
     connection.release();
 
     return (
@@ -34,24 +34,24 @@ export default async function RegisterPage() {
                                     <div className="flex gap-x-2">
                                         <img
                                             src={`data:image/png;base64,${user?.avatar.toString(
-                                            "base64"
-                                        )}`}
+                                                "base64"
+                                            )}`}
                                             className="h-18 w-18 bg-gray-50 rounded-md"
                                         ></img>
                                         <div className="flex-grow flex flex-col">
                                             <div className="flex items-center">
                                                 <h1 className="text-lg font-medium font-rubik mr-2">
-                                                    {user.username} 
+                                                    {user.username}
                                                 </h1>
 
 
                                             </div>
                                             <div className="flex items-center">
-                                                
+
                                                 {(user?.privilege == 'admin' || user?.privilege == 'regular') && (
-                                                    
+
                                                     <div className="flex gap-x-1 mr-1.5">
-                                                       
+
                                                         {user?.privilege == 'admin' && (
                                                             <div className="badge badge-neutral badge-sm">
                                                                 <FontAwesomeIcon icon={faGavel} className="h-3" />
@@ -83,6 +83,18 @@ export default async function RegisterPage() {
 
 
                         </div>
+                    </div>
+                    <div className="join">
+                        <input
+                            className="join-item btn btn-square  btn-sm"
+                            type="radio"
+                            name="options"
+                            aria-label="1"
+                            defaultChecked={true} />
+                        <input className="join-item btn btn-square btn-sm" type="radio" name="options" aria-label="2" />
+                        <input disabled className="join-item btn btn-square btn-sm" type="radio" name="options" aria-label="..." />
+                        <input className="join-item btn btn-square btn-sm" type="radio" name="options" aria-label="4" />
+                        <input className="join-item btn btn-square btn-sm" type="radio" name="options" aria-label="5" />
                     </div>
                 </div>
             </div>

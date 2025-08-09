@@ -6,7 +6,7 @@ import { faX, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import MainContainer  from "../../../components/main"
 
-export default function Admin({
+export default function ProfileSettings({
     adminDefault = false,
     user = {
         id: 1,
@@ -30,7 +30,7 @@ export default function Admin({
                 <SettingsSidebar />
                 <>
                     <MainContainer>
-                            <h1 className="text-xl font-bold">User Settings</h1>
+                            <h1 className="text-xl font-bold">Profile Settings</h1>
                             <div className="divider my-0 mb-1"></div>
                             <div className="flex gap-x-8 flex-col lg:flex-row">
                                 <div className="lg:w-3/5 w-full">
@@ -38,7 +38,7 @@ export default function Admin({
                                         <div className="grid grid-cols-1 gap-2">
                                             <fieldset className="fieldset">
                                                 <legend className="fieldset-legend">
-                                                    Username
+                                                    Favourite Book
                                                 </legend>
                                                 <input
                                                     type="text"
@@ -57,7 +57,6 @@ export default function Admin({
                                                     className="input w-full focus:outline-none focus:border-none focus:ring-1 transition-all focus:ring-orange-700"
                                                     placeholder="Type here"
                                                 />
-                                                 <p className="text-yellow-600 text-xs mt-auto italic">Not visible to public</p> 
                                             </fieldset>
                                             <fieldset className="fieldset">
                                                 <legend className="fieldset-legend">
@@ -79,7 +78,7 @@ export default function Admin({
                                                         
                                                     />
                                                 </div>
-                                                <p className="text-yellow-600 text-xs mt-auto italic">Not visible to public</p> 
+                                               
                                             </fieldset>
                                             <fieldset className="fieldset">
                                                 <legend className="fieldset-legend">
@@ -134,7 +133,6 @@ export default function Admin({
                                                         })}
                                                     </select>
                                                 </div>
-                                                <p className="text-yellow-600 text-xs mt-auto italic">Not visible to public</p> 
                                                
                                             </fieldset>
 
