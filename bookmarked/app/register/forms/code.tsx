@@ -2,12 +2,22 @@
 
 import { faAsterisk } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useActionState } from "react";
-import { Register } from "../register";
+import { useActionState, useEffect, useState } from "react";
+import { ValidateCode } from "../register";
 
-export default function RegisterAccessCodeForm() {
-    const [actionState, formAction] = useActionState(Register, null);
+export default function RegisterAccessCodeForm({
+    setSubmitCode,
+}: {
+    setSubmitCode: (code: string) => void;
+}) {
+    const [actionState, formAction] = useActionState(ValidateCode, null);
+    const [code, setCode] = useState("");
 
+    useEffect(() => {
+        if (actionState?.success && code) {
+            setSubmitCode(code);
+        }
+    }, [actionState, setSubmitCode]);
     return (
         <div className="font-rubik">
             <div className="flex flex-col gap-y-2">
@@ -33,13 +43,27 @@ export default function RegisterAccessCodeForm() {
                     <div className="gap-y-1 flex flex-col">
                         <fieldset className="fieldset">
                             <legend className="fieldset-legend">
-                                Access Code 
+                                Access Code
                             </legend>
                             <input
                                 type="text"
                                 name="accesscode"
-                                className="input w-full focus:outline-none focus:border-none focus:ring-1 transition-all focus:ring-orange-700"
+                                className="uppercase input w-full focus:outline-none focus:border-none focus:ring-1 transition-all focus:ring-orange-700"
                                 placeholder="XXXXX-XXXXX"
+                                value={code}
+                                onChange={(e) => {
+                                    let val = e.target.value
+                                        .replace(/[^a-zA-Z0-9]/g, "")
+                                        .toUpperCase();
+
+                                    setCode(
+                                        val.length > 5
+                                            ? val.slice(0, 5) +
+                                                  "-" +
+                                                  val.slice(5, 10)
+                                            : val
+                                    );
+                                }}
                             />
                         </fieldset>
 
@@ -49,7 +73,12 @@ export default function RegisterAccessCodeForm() {
                     </div>
                 </form>
             </div>
-             <p className="italic text-xs mt-3">Already have an account? Login <a href="/login" className="text-indigo-500">here</a></p>
+            <p className="italic text-xs mt-3">
+                Already have an account? Login{" "}
+                <a href="/login" className="text-indigo-500">
+                    here
+                </a>
+            </p>
         </div>
     );
 }

@@ -1,19 +1,17 @@
 "use client";
 
-import { faAsterisk } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useActionState } from "react";
-import { Register } from "./register";
+import { useActionState, useState } from "react";
 import RegisterAccessCodeForm from "./forms/code";
 import RegisterMainForm from "./forms/main";
+import { Register } from "./register";
 
 export default function RegisterForm() {
     const [actionState, formAction] = useActionState(Register, null);
+    const [accessCode, setAccessCode] = useState("");
 
-    return (
-     <>
-       <RegisterAccessCodeForm/>
-       {/*<RegisterMainForm/> */}
-       </>
-    );
+    if (!accessCode) {
+        return <RegisterAccessCodeForm setSubmitCode={setAccessCode} />;
+    } else {
+        return <RegisterMainForm />;
+    }
 }
