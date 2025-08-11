@@ -1,0 +1,17 @@
+FUNCTION updateProfile(favBook, favAuthor, genres, bio)
+BEGIN
+    DECLARE acceptedGenres = ["Science Fiction","Fantasy","Mystery","Romance","Comedy","Children's","Poetry","Horror","Non-fiction","Non-fiction"]
+
+    FOR i = 0 TO genres.length
+        IF genres[i] NOT IN acceptedGenres THEN
+            DISPLAY "Invalid Genre"
+            RETURN
+        ENDIF
+    NEXT i
+    ENDFOR
+
+
+    QUERY update profiles set favBook = favBook, favAuthor = favAuthor, genres = genres, bio = bio, where user id = currently authenticated
+
+    DISPLAY "Successfully updated profile information"
+END

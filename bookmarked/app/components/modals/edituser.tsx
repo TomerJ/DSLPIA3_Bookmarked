@@ -30,7 +30,7 @@ export default function EditUser({ showUser = true }: { showUser?: boolean }) {
                                 placeholder="Type here"
                             />
                         </fieldset>
-<fieldset className="fieldset">
+                        <fieldset className="fieldset">
                             <legend className="fieldset-legend">
                                 Birthday
                             </legend>
@@ -82,6 +82,25 @@ export default function EditUser({ showUser = true }: { showUser?: boolean }) {
                             </div>
                         </fieldset>
                         <fieldset className="fieldset">
+                            <legend className="fieldset-legend">
+                                Full Name
+                            </legend>
+                            <div className="flex gap-x-2">
+                                <input
+                                    type="text"
+                                    name="firstname"
+                                    className="input w-full focus:outline-none focus:border-none focus:ring-1 transition-all focus:ring-orange-700"
+                                    placeholder="First Name"
+                                />
+                                <input
+                                    type="text"
+                                    name="lastname"
+                                    className="input w-full focus:outline-none focus:border-none focus:ring-1 transition-all focus:ring-orange-700"
+                                    placeholder="Last Name"
+                                />
+                            </div>
+                        </fieldset>
+                        <fieldset className="fieldset">
                             <legend className="fieldset-legend">Avatar</legend>
                             <input
                                 type="text"
@@ -96,7 +115,7 @@ export default function EditUser({ showUser = true }: { showUser?: boolean }) {
                     <div className="flex gap-2">
                         <form method="dialog">
                             <button className="btn btn-sm btn-success rounded-sm">
-                                Update Profile
+                                Update User
                             </button>
                         </form>
                         <form method="dialog">

@@ -95,6 +95,25 @@ export default function RegisterMainForm() {
                             </div>
                         </fieldset>
                         <fieldset className="fieldset">
+                            <legend className="fieldset-legend">
+                                Full Name
+                            </legend>
+                            <div className="flex gap-x-2">
+                                <input
+                                    type="text"
+                                    name="firstname"
+                                    className="input w-full focus:outline-none focus:border-none focus:ring-1 transition-all focus:ring-orange-700"
+                                    placeholder="First Name"
+                                />
+                                <input
+                                    type="text"
+                                    name="lastname"
+                                    className="input w-full focus:outline-none focus:border-none focus:ring-1 transition-all focus:ring-orange-700"
+                                    placeholder="Last Name"
+                                />
+                            </div>
+                        </fieldset>
+                        <fieldset className="fieldset">
                             <legend className="fieldset-legend">Email</legend>
                             <input
                                 type="text"
@@ -160,7 +179,12 @@ export default function RegisterMainForm() {
                     </div>
                 </form>
             </div>
-             <p className="italic text-xs mt-3">Already have an account? Login <a href="/login" className="text-indigo-500">here</a></p>
+            <p className="italic text-xs mt-3">
+                Already have an account? Login{" "}
+                <a href="/login" className="text-indigo-500">
+                    here
+                </a>
+            </p>
         </div>
     );
 }

@@ -1,0 +1,21 @@
+FUNCTION login(username, password)
+BEGIN
+
+    IF NOT username OR NOT password THEN
+        DISPLAY "One or more fields are missing"
+        RETURN
+    ENDIF
+
+    DECLARE loginRes = QUERY select from users where username = username
+
+    IF loginRes.length == 0 || NOT CHECKHASH(password, loginRes[0].password) THEN
+        DISPLAY "Incorrect username or password"
+        RETURN
+    ENDIF
+
+    DECLARE session_token = RANDOMBYTES()
+    QUERY INSERT into sessions (user, session_token) (loginRes[0].userId, session_token)
+
+    SET cookie session_token TO session_token
+    REDIRECT TO home page
+END

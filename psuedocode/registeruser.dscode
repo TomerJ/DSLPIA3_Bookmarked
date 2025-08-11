@@ -1,7 +1,7 @@
 FUNCTION validateAccessCode (code)
 BEGIN
-    QUERY select from access_codes where code is inputted code
-    IF condition THEN
+    VAR results = QUERY select from access_codes where code is inputted code
+    IF results.length > 0 THEN
         
     ENDIF 
 END

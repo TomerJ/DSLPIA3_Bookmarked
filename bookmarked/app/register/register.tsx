@@ -25,6 +25,8 @@ export async function Register(_: any, data: FormData) {
     };
     let email = data.get("email") as string | null;
     let username = data.get("username") as string | null;
+    let firstname = data.get("firstname") as string | null;
+    let lastname = data.get("lastname") as string | null;
     let password = data.get("password") as string | null;
     let confirmpassword = data.get("confirmpassword") as string | null;
     const userCheck = /^[a-zA-Z0-9_]+$/;
@@ -34,6 +36,8 @@ export async function Register(_: any, data: FormData) {
         !email ||
         !password ||
         !confirmpassword ||
+        !firstname ||
+        !lastname ||
         !dob.day ||
         !dob.month ||
         !dob.year
@@ -104,16 +108,23 @@ export async function Register(_: any, data: FormData) {
 
     const date = `${dob.year}-${dob.month}-${dob.day}`;
     const [userResult] = await connection.execute<ResultSetHeader>(
-        "INSERT INTO users (username, displayname, email, avatar, password, dob) VALUES (?, ?, ?, ?, ?, ?)",
-        [username, username, email, png, await argon2.hash(password), date]
+        "INSERT INTO users (username, firstname, lastname, email, avatar, password, dob) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+        [
+            username,
+            firstname,
+            lastname,
+            email,
+            png,
+            await argon2.hash(password),
+            date,
+        ]
     );
 
     const userId = userResult.insertId;
 
-    await connection.execute(
-        "INSERT INTO profiles (user_id, displayname, email, avatar, password, dob) VALUES (?, ?, ?, ?, ?, ?)",
-        [userId, username, email, png, await argon2.hash(password), date]
-    );
+    await connection.execute("INSERT INTO profiles (user_id) VALUES (?)", [
+        userId,
+    ]);
 
     connection.release();
     redirect("/login");

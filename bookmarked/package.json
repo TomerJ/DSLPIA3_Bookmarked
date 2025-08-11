@@ -13,6 +13,7 @@
     "@fortawesome/free-regular-svg-icons": "^7.0.0",
     "@fortawesome/free-solid-svg-icons": "^7.0.0",
     "@fortawesome/react-fontawesome": "^0.2.3",
+    "@headlessui/react": "^2.2.7",
     "argon2": "^0.43.1",
     "daisyui": "^5.0.48",
     "dotenv": "^17.2.1",

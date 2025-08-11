@@ -1,6 +1,7 @@
 "use client";
 import {
     faBookmark,
+    faEye,
     faPencil,
     faShield,
     faTrash,
@@ -18,16 +19,38 @@ export default function Membercontrol({
 }) {
     return (
         <div className="flex gap-x-1">
-            <div className="tooltip tooltip-bottom" data-tip="Manage Progress">
-                <button className="btn btn-info rounded-sm btn-xs" onClick={() => {
-                    (
-                        document.getElementById(
-                            "manage_progress"
-                        ) as HTMLDialogElement
-                    )?.showModal();
-                }}>
+            <div className="tooltip tooltip-bottom" data-tip="View Profile">
+                <button
+                    className="btn btn-info rounded-sm btn-xs"
+                    onClick={() => {
+                        (
+                            document.getElementById(
+                                "manage_progress"
+                            ) as HTMLDialogElement
+                        )?.showModal();
+                    }}
+                >
                     {" "}
-                    <FontAwesomeIcon icon={faBookmark} className="h-3.5 w-3.5" />
+                    <FontAwesomeIcon icon={faEye} className="h-3.5 w-3.5" />
+                </button>
+                <ManageProgress />
+            </div>
+            <div className="tooltip tooltip-bottom" data-tip="Manage Progress">
+                <button
+                    className="btn rounded-sm btn-xs bg-fuchsia-600 hover:bg-fuchsia-700 text-white"
+                    onClick={() => {
+                        (
+                            document.getElementById(
+                                "manage_progress"
+                            ) as HTMLDialogElement
+                        )?.showModal();
+                    }}
+                >
+                    {" "}
+                    <FontAwesomeIcon
+                        icon={faBookmark}
+                        className="h-3.5 w-3.5"
+                    />
                 </button>
                 <ManageProgress />
             </div>
@@ -59,7 +82,10 @@ export default function Membercontrol({
                 </button>
                 <EditUser />
             </div>
-            <div className="tooltip tooltip-bottom" data-tip="Edit Privilege Level">
+            <div
+                className="tooltip tooltip-bottom"
+                data-tip="Edit Privilege Level"
+            >
                 <button
                     className="btn btn-accent rounded-sm btn-xs"
                     onClick={() => {
