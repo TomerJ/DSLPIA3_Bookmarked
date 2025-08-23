@@ -1,98 +1,86 @@
 import {
     faBookBookmark,
+    faGavel,
     faPencil,
+    faStar,
     faTrophy,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Navbar from "../components/nav";
+import Navbar from "../../../components/nav";
+import Activity from "./activity";
 
 export default async function App() {
     return (
         <>
-            <Navbar/>
+            <Navbar showUser={false} />
             <div
                 className="dots flex items-center justify-center py-10"
                 style={{ minHeight: "calc(100vh - 5rem)" }}
             >
-                <div className="lg:w-5/6 w-full p-2 lg:h-fit drop-shadow-md mx-auto my-auto flex flex-col gap-y-4">
-                    <div className="p-9 bg-base-100 container w-full mx-auto h-full lg:h-auto drop-shadow-md">
-                        <div className="font-rubik">
-                            <h1 className="text-xl font-medium">
-                                Good Evening,
-                            </h1>
-                            <h1 className="text-3xl font-black">
-                                Marvin Beak
-                            </h1>
+                <div className="lg:w-5/6 w-full p-2 lg:h-fit mx-auto my-auto flex flex-col gap-y-4">
+                    <div className=" w-full mx-auto h-full lg:h-auto flex gap-x-4">
+                        {/* Left container (30%) */}
+                        <div className="w-1/3 bg-base-100 p-6 drop-shadow-md">
+                            <div className="font-rubik  flex items-center justify-center mt-3">
 
-                            <div className="stats shadow mt-4 w-full stats-vertical lg:stats-horizontal">
-                                <div className="stat">
-                                    <div className="stat-figure text-primary">
-                                        <FontAwesomeIcon
-                                            icon={faTrophy}
-                                            className="text-4xl"
-                                        />
-                                    </div>
-                                    <div className="stat-title">
-                                        Current Level
-                                    </div>
-                                    <div className="stat-value text-primary">
-                                        42
-                                    </div>
-                                    <div className="stat-desc">
-                                        21% more than last month
+
+                                <div className="p-3 flex flex-col gap-y-1">
+                                    <img src="https://placehold.co/1024" className="h-72 w-72"></img>
+                                    <div className="">
+                                        <h1 className="text-lg font-bold">xxppcashmoneygamergirlxx</h1>
+                                        <div className="flex gap-x-1 5">
+                                            <div className="badge badge-neutral badge-sm">
+                                                <FontAwesomeIcon icon={faGavel} className="w-3" />
+                                                Admin
+                                            </div>
+                                            <div className="badge badge-neutral bg-violet-500 border-violet-500 badge-sm">
+                                                <FontAwesomeIcon icon={faStar} className="w-3" />
+                                                Lvl. 69420
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
-                                <div className="stat">
-                                    <div className="stat-figure text-accent">
-                                        <FontAwesomeIcon
-                                            icon={faPencil}
-                                            className="text-4xl"
-                                        />
-                                    </div>
-                                    <div className="stat-title">
-                                        Reviews Written
-                                    </div>
-                                    <div className="stat-value text-accent">
-                                        3
-                                    </div>
-                                    <div className="stat-desc">
-                                        21% more than last month
-                                    </div>
-                                </div>
 
-                                <div className="stat">
-                                    <div className="stat-figure text-secondary">
-                                        <FontAwesomeIcon
-                                            icon={faBookBookmark}
-                                            className="text-4xl"
-                                        />
-                                    </div>
-                                    <div className="stat-title">
-                                        Books Logged
-                                    </div>
-                                    <div className="stat-value text-secondary">
-                                        42
-                                    </div>
-                                    <div className="stat-desc">
-                                        21% more than last month
-                                    </div>
-                                </div>
                             </div>
-                            <div className="flex gap-x-1">
-                                <button className="btn btn-accent btn-sm rounded-md mt-5">
-                                    New Review
-                                </button>
-                                <button className="btn btn-secondary btn-sm rounded-md mt-5">
-                                    Log Book
-                                </button>
+
+                        </div>
+
+                        {/* Right container (70%) */}
+                        <div className="w-3/4 bg-base-100 p-6 drop-shadow-md">
+                            <div className="font-rubik">
+
+                                <Activity/>
+                                <div className="stats shadow mt-4 w-full stats-vertical lg:stats-horizontal">
+                                    <div className="stat">
+                                        <div className="stat-figure text-accent">
+                                            <FontAwesomeIcon icon={faPencil} className="text-4xl" />
+                                        </div>
+                                        <div className="stat-title">Reviews Written</div>
+                                        <div className="stat-value text-accent">3</div>
+                                        <div className="stat-desc">21% more than last month</div>
+                                    </div>
+
+                                    <div className="stat">
+                                        <div className="stat-figure text-secondary">
+                                            <FontAwesomeIcon icon={faBookBookmark} className="text-4xl" />
+                                        </div>
+                                        <div className="stat-title">Books Logged</div>
+                                        <div className="stat-value text-secondary">42</div>
+                                        <div className="stat-desc">21% more than last month</div>
+                                    </div>
+                                </div>
+
+                                <div className="flex gap-x-2">
+                                    <button className="btn btn-accent btn-sm rounded-md mt-5">New Review</button>
+                                    <button className="btn btn-secondary btn-sm rounded-md mt-5">Log Book</button>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div className="p-9 bg-base-100  w-full mx-auto h-full lg:h-auto drop-shadow-md">
-                        <div className="container p-2"></div>
+                    <div className="p-9 bg-base-100 container w-full mx-auto h-full lg:h-auto drop-shadow-md">
                         <div className="font-rubik">
                             <h2 className="text-xl font-normal mb-2">
                                 Newest Reviews
@@ -112,8 +100,8 @@ export default async function App() {
                                     </div>
                                     <div>
                                         <div>
-                                            Curious George's
-                                            Eighty-Four-Nineteen
+                                            George Orwell's
+                                            Nineteen-Eighty-Four: How blah blah
                                             blah
                                         </div>
                                         <div className="text-xs uppercase font-semibold opacity-60 mb-1.5">

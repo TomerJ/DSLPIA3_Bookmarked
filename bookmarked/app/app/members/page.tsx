@@ -1,8 +1,8 @@
 import { faGavel, faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { RowDataPacket } from "mysql2/promise";
-import Navbar from "../components/nav";
-import { systemPool } from "../util/connect";
+import Navbar from "../../components/nav";
+import { systemPool } from "../../util/connect";
 
 export default async function RegisterPage() {
     const connection = await systemPool.getConnection();

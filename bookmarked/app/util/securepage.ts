@@ -3,7 +3,7 @@ import { cookies } from 'next/headers';
 import { redirect } from "next/navigation";
 import { systemPool } from "./connect";
 
-async function getSession(): Promise<RowDataPacket | null> {
+export async function getSession(elevated: boolean|null = true): Promise<RowDataPacket | null> {
     const connection = await systemPool.getConnection();
     const cookieStore = await cookies()
 
@@ -17,7 +17,15 @@ async function getSession(): Promise<RowDataPacket | null> {
         [sessionToken, new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)]
     );
     connection.release();
+    if(elevated) {
+        if(sessionRes[0].elevated_at < new Date(Date.now() + 10 * 60 * 1000)) {
+            return sessionRes[0];
+        } else {
+            return null
+        }
+    }
     return sessionRes[0];
+    
 }
 export async function SecurePage(elevated: boolean = false) {
 

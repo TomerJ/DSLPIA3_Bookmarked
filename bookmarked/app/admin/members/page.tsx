@@ -1,8 +1,9 @@
 import AdminSidebar from "@/app/components/adminsidebar";
 import Navbar from "../../components/nav";
 import { Members } from "./members";
+import { getUsers } from "@/app/util/admin";
 
-export default function Admin() {
+export default async function Admin() {
     return (
         <>
             <Navbar showUser={false}/>

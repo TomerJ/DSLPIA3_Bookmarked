@@ -14,20 +14,25 @@
     "@fortawesome/free-solid-svg-icons": "^7.0.0",
     "@fortawesome/react-fontawesome": "^0.2.3",
     "@headlessui/react": "^2.2.7",
+    "@types/cal-heatmap": "^4.0.0",
     "argon2": "^0.43.1",
+    "cal-heatmap": "^4.2.4",
     "daisyui": "^5.0.48",
     "dotenv": "^17.2.1",
     "jdenticon": "^3.3.0",
     "mysql2": "^3.14.2",
     "next": "15.4.4",
     "react": "19.1.0",
-    "react-dom": "19.1.0"
+    "react-calendar-heatmap": "^1.10.0",
+    "react-dom": "19.1.0",
+    "reactjs-calendar-heatmap": "^0.2.3"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-common-types": "^7.0.0",
     "@tailwindcss/postcss": "^4.1.11",
     "@types/node": "^20",
     "@types/react": "^19",
+    "@types/react-calendar-heatmap": "^1.9.0",
     "@types/react-dom": "^19",
     "tailwindcss": "^4.1.11",
     "typescript": "^5"

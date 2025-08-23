@@ -70,7 +70,7 @@
 
 td,
 .trunc {
-    max-width: 150px;
+    max-width: 2px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;

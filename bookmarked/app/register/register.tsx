@@ -8,16 +8,35 @@ var jdenticon = require("jdenticon") as typeof jdenticonTypes;
 import { systemPool } from "@util/connect";
 import { ResultSetHeader, RowDataPacket } from "mysql2/promise";
 import { redirect } from "next/navigation";
+import { connect } from "http2";
 
 export async function ValidateCode(_: any, data: FormData) {
+    const connection = await systemPool.getConnection();
     let code = data.get("accesscode") as string | null;
-    return {
-        success: true,
-        error: "YOUR MOTHER",
-    };
+    const [accessCodeCheck] = await connection.execute<RowDataPacket[]>(
+        "SELECT * FROM access_codes WHERE code = ?",
+        [code]
+    );
+
+    connection.release();
+    if (accessCodeCheck.length > 0) {
+        return {
+            success: true,
+        };
+    } else {
+        return {
+            success: false,
+            error: "Invalid Access Code",
+        };
+    }
+
+
+    
 }
 
 export async function Register(_: any, data: FormData) {
+    ValidateCode(null, data)
+
     let dob = {
         day: data.get("dob-day") as string | null,
         month: data.get("dob-month") as string | null,
@@ -29,7 +48,11 @@ export async function Register(_: any, data: FormData) {
     let lastname = data.get("lastname") as string | null;
     let password = data.get("password") as string | null;
     let confirmpassword = data.get("confirmpassword") as string | null;
+
+    let accessCode = data.get("accesscode") as string | null;
     const userCheck = /^[a-zA-Z0-9_]+$/;
+
+
 
     if (
         !username ||
@@ -47,6 +70,8 @@ export async function Register(_: any, data: FormData) {
             data,
         };
     }
+
+
 
     email = email.trim();
     password = password.trim();

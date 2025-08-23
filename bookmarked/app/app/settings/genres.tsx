@@ -19,20 +19,7 @@ import {
     ComboboxOptions,
 } from "@headlessui/react";
 
-export default function Genres({
-    adminDefault = false,
-    user = {
-        id: 1,
-        name: "YOOOO",
-    },
-}: {
-    user?: {
-        id: number;
-        name: string;
-    };
-    status?: (message: string, type: "success" | "danger" | "warning") => void;
-    adminDefault?: boolean;
-}) {
+export default function Genres() {
     const sampleGenres = [
         { label: "Science Fiction", icon: faRobot },
         { label: "Fantasy", icon: faHatWizard },

@@ -12,6 +12,6 @@ export default function RegisterForm() {
     if (!accessCode) {
         return <RegisterAccessCodeForm setSubmitCode={setAccessCode} />;
     } else {
-        return <RegisterMainForm />;
+        return <RegisterMainForm accessCode={accessCode} />;
     }
 }

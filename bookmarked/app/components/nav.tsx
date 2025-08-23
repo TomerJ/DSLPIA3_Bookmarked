@@ -90,12 +90,6 @@ export default async function Navbar({
                                             Admin
                                         </div>
                                     )}
-                                    {userinfo?.privilege == "regular" && (
-                                        <div className="badge badge-accent badge-sm">
-                                            <FontAwesomeIcon icon={faStar} />
-                                            Regular
-                                        </div>
-                                    )}
                                 </summary>
                                 <ul className="bg-base-100 rounded-t-none p-2 font-rubik">
                                     <li>

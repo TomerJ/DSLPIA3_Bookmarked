@@ -5,7 +5,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useActionState } from "react";
 import { Register } from "../register";
 
-export default function RegisterMainForm() {
+export default function RegisterMainForm({
+    accessCode,
+}: {
+    accessCode: string;
+}) {
     const [actionState, formAction] = useActionState(Register, null);
 
     return (
@@ -30,6 +34,11 @@ export default function RegisterMainForm() {
 
             <div className="font-inter">
                 <form action={formAction}>
+                                                  <input
+                                    type="hidden"
+                                    name="accesscode"
+                                    
+                                />
                     <div className="gap-y-1 flex flex-col">
                         <fieldset className="fieldset">
                             <legend className="fieldset-legend">
