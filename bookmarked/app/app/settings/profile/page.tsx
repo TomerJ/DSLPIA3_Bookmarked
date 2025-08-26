@@ -1,9 +1,9 @@
 import SettingsSidebar from "@/app/components/settingssidebar";
 import { faCheck, faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Genres from "../../../components/genres";
 import MainContainer from "../../../components/main";
-import Navbar from "../../../components/nav/nav";
-import Genres from "../genres";
+import Navbar from "../../../components/nav";
 
 export default function ProfileSettings({
     adminDefault = false,

@@ -8,16 +8,67 @@ var jdenticon = require("jdenticon") as typeof jdenticonTypes;
 import { systemPool } from "@util/connect";
 import { ResultSetHeader, RowDataPacket } from "mysql2/promise";
 import { redirect } from "next/navigation";
+import { getSession } from "../util/securepage";
 
 export async function ValidateCode(_: any, data: FormData) {
+    const connection = await systemPool.getConnection();
     let code = data.get("accesscode") as string | null;
-    return {
-        success: true,
-        error: "YOUR MOTHER",
-    };
+    const [accessCodeCheck] = await connection.execute<RowDataPacket[]>(
+        "SELECT * FROM access_codes WHERE code = ?",
+        [code]
+    );
+        console.log(code)
+    connection.release();
+    if (accessCodeCheck.length > 0) {
+        return {
+            success: true,
+        };
+    } else {
+        return {
+            success: false,
+            error: "Invalid access code.",
+        };
+    }
+
+
+    
 }
 
+export async function CreateProfile(_: any, data: FormData) {
+    
+    const connection = await systemPool.getConnection();
+    const session = await getSession()
+    if(!session) {
+        redirect('/login')
+    };
+    console.log(session)
+    let favBook = data.get("favbook") as string | null;
+    let favAuthor = data.get("favauthor") as string | null;
+    let genres = data.get("genres") as string | null;
+    let bio = data.get("bio") as string | null;
+    await connection.execute<ResultSetHeader>(
+        "INSERT INTO profiles (user_id, fav_book, fav_author, genres, bio) VALUES (?, ?, ?, ?, ?)",
+        [
+            session.user_id,
+            favBook,
+            favAuthor,
+            genres,
+            bio
+        ]
+    );
+
+
+    connection.release();
+    redirect('/app')
+}
 export async function Register(_: any, data: FormData) {
+    if(!((await ValidateCode(null, data)).success)) {
+        return {
+            error: "Invalid access code",
+            data,
+        };
+    }
+
     let dob = {
         day: data.get("dob-day") as string | null,
         month: data.get("dob-month") as string | null,
@@ -29,7 +80,11 @@ export async function Register(_: any, data: FormData) {
     let lastname = data.get("lastname") as string | null;
     let password = data.get("password") as string | null;
     let confirmpassword = data.get("confirmpassword") as string | null;
+
+    let accessCode = data.get("accesscode") as string | null;
     const userCheck = /^[a-zA-Z0-9_]+$/;
+
+
 
     if (
         !username ||
@@ -47,6 +102,8 @@ export async function Register(_: any, data: FormData) {
             data,
         };
     }
+
+
 
     email = email.trim();
     password = password.trim();
@@ -78,6 +135,7 @@ export async function Register(_: any, data: FormData) {
 
     const connection = await systemPool.getConnection();
 
+
     const [usernameCheck] = await connection.execute<RowDataPacket[]>(
         "SELECT * FROM users WHERE username = ?",
         [username]
@@ -85,7 +143,7 @@ export async function Register(_: any, data: FormData) {
 
     if (usernameCheck.length > 0) {
         return {
-            error: "An account with the same username already exists.",
+            error: "The specified username is already taken. Please use another",
             data,
         };
     }
@@ -108,7 +166,7 @@ export async function Register(_: any, data: FormData) {
 
     const date = `${dob.year}-${dob.month}-${dob.day}`;
     const [userResult] = await connection.execute<ResultSetHeader>(
-        "INSERT INTO users (username, firstname, lastname, email, avatar, password, dob) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+        "INSERT INTO users (username, firstname, lastname, email, avatar, password, dob) VALUES (?, ?, ?, ?, ?, ?, ?)",
         [
             username,
             firstname,
@@ -122,10 +180,7 @@ export async function Register(_: any, data: FormData) {
 
     const userId = userResult.insertId;
 
-    await connection.execute("INSERT INTO profiles (user_id) VALUES (?)", [
-        userId,
-    ]);
 
     connection.release();
-    redirect("/login");
+    redirect("/app");
 }

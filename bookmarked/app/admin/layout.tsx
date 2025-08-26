@@ -5,6 +5,6 @@ export default async function AppLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-   await SecurePage();
-    return <div className=" text-zinc-700">{children}</div>;
+    await SecurePage(true);
+    return <div className="text-zinc-700">{children}</div>;
 }

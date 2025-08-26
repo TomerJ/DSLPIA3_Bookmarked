@@ -33,7 +33,7 @@ export default function RegisterAccessCodeForm({
                 Welcome to Bookmark'd! You are registering for a{" "}
                 <b>new account</b>.
                 <br />
-                Please an access code given by an administrator to continue:
+                Please enter an access code given by an administrator to continue:
             </p>
 
             <div className="divider my-0"></div>

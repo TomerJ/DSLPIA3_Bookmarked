@@ -1,7 +1,7 @@
 import { faGavel, faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { RowDataPacket } from "mysql2/promise";
-import Navbar from "../../components/nav/nav";
+import Navbar from "../../components/nav";
 import { systemPool } from "../../util/connect";
 
 export default async function RegisterPage() {
@@ -9,7 +9,17 @@ export default async function RegisterPage() {
 
     const [userList] = await connection.execute<RowDataPacket[]>(
         //"SELECT * FROM users JOIN profiles ON users.id = profiles.id",
-        "SELECT * FROM users"
+        `
+        SELECT 
+           users.id AS user_id,
+           users.username,
+           users.email,
+           users.privilege,
+           profiles.bio,
+           profiles.xp,
+           users.avatar
+         FROM users
+         LEFT JOIN profiles ON users.id = profiles.user_id`
     );
     // console.log(userList)
     connection.release();
@@ -48,14 +58,11 @@ export default async function RegisterPage() {
                                                     </h1>
                                                 </div>
                                                 <div className="flex items-center">
-                                                    {(user?.privilege ==
-                                                        "admin" ||
-                                                        user?.privilege ==
-                                                            "regular") && (
-                                                        <div className="flex gap-x-1 mr-1.5">
-                                                            {user?.privilege ==
-                                                                "admin" && (
-                                                                <div className="badge badge-neutral badge-sm">
+                                                    
+                                                        {user?.privilege ==
+                                                            "admin" && (
+                                                                <div className="flex gap-x-1">
+                                                                <div className="badge badge-neutral badge-sm mr-1.5">
                                                                     <FontAwesomeIcon
                                                                         icon={
                                                                             faGavel
@@ -64,22 +71,11 @@ export default async function RegisterPage() {
                                                                     />
                                                                     Admin
                                                                 </div>
-                                                            )}
-
-                                                            {user?.privilege ==
-                                                                "regular" && (
-                                                                <div className="badge badge-accent badge-sm">
-                                                                    <FontAwesomeIcon
-                                                                        icon={
-                                                                            faStar
-                                                                        }
-                                                                        className="h-3"
-                                                                    />
-                                                                    Regular
                                                                 </div>
                                                             )}
-                                                        </div>
-                                                    )}
+
+
+                                                  
 
                                                     <div className="font-inter text-xs">
                                                         <p>Lvl. 40</p>
@@ -89,7 +85,7 @@ export default async function RegisterPage() {
                                         </div>
                                         <a
                                             className="btn btn-sm btn-primary w-full rounded-sm mt-auto font-inter font-medium"
-                                            href={"/app/members/" + user.id}
+                                            href={"/app/members/" + user.user_id}
                                         >
                                             View Profile
                                         </a>
@@ -104,33 +100,11 @@ export default async function RegisterPage() {
                             type="radio"
                             name="options"
                             aria-label="1"
-                            defaultChecked={true}
-                        />
-                        <input
-                            className="join-item btn btn-square btn-sm"
-                            type="radio"
-                            name="options"
-                            aria-label="2"
-                        />
-                        <input
-                            disabled
-                            className="join-item btn btn-square btn-sm"
-                            type="radio"
-                            name="options"
-                            aria-label="..."
-                        />
-                        <input
-                            className="join-item btn btn-square btn-sm"
-                            type="radio"
-                            name="options"
-                            aria-label="4"
-                        />
-                        <input
-                            className="join-item btn btn-square btn-sm"
-                            type="radio"
-                            name="options"
-                            aria-label="5"
-                        />
+                            defaultChecked={true} />
+                        <input className="join-item btn btn-square btn-sm" type="radio" name="options" aria-label="2" />
+                        <input disabled className="join-item btn btn-square btn-sm" type="radio" name="options" aria-label="..." />
+                        <input className="join-item btn btn-square btn-sm" type="radio" name="options" aria-label="4" />
+                        <input className="join-item btn btn-square btn-sm" type="radio" name="options" aria-label="5" />
                     </div>
                 </div>
             </div>

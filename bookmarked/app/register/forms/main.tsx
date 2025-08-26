@@ -5,7 +5,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useActionState } from "react";
 import { Register } from "../register";
 
-export default function RegisterMainForm() {
+export default function RegisterMainForm({
+    accessCode,
+}: {
+    accessCode: string;
+}) {
     const [actionState, formAction] = useActionState(Register, null);
 
     return (
@@ -30,6 +34,11 @@ export default function RegisterMainForm() {
 
             <div className="font-inter">
                 <form action={formAction}>
+                    <input
+                        type="hidden"
+                        name="accesscode"
+                        value={accessCode}
+                    />
                     <div className="gap-y-1 flex flex-col">
                         <fieldset className="fieldset">
                             <legend className="fieldset-legend">
@@ -65,7 +74,7 @@ export default function RegisterMainForm() {
                                     <option disabled value="">
                                         Month
                                     </option>
-                                    {Array.from({ length: 31 }, (_, i) => (
+                                    {Array.from({ length: 12 }, (_, i) => (
                                         <option key={i + 1} value={i + 1}>
                                             {i + 1}
                                         </option>
@@ -104,12 +113,20 @@ export default function RegisterMainForm() {
                                     name="firstname"
                                     className="input w-full focus:outline-none focus:border-none focus:ring-1 transition-all focus:ring-orange-700"
                                     placeholder="First Name"
+                                    defaultValue={
+                                        (actionState?.data?.get("firstname") ||
+                                            "") as string
+                                    }
                                 />
                                 <input
                                     type="text"
                                     name="lastname"
                                     className="input w-full focus:outline-none focus:border-none focus:ring-1 transition-all focus:ring-orange-700"
                                     placeholder="Last Name"
+                                    defaultValue={
+                                        (actionState?.data?.get("lastname") ||
+                                            "") as string
+                                    }
                                 />
                             </div>
                         </fieldset>

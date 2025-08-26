@@ -18,7 +18,9 @@ export default function Membercontrol({
     status?: (message: string, type: "success" | "danger" | "warning") => void;
 }) {
     return (
+        
         <div className="flex gap-x-1">
+
             <div className="tooltip tooltip-bottom" data-tip="View Profile">
                 <button
                     className="btn btn-info rounded-sm btn-xs"

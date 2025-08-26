@@ -3,14 +3,14 @@
 import { faBan } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useActionState, useEffect, useState } from "react";
-import { Login } from "./elevate";
+import { Elevate } from "./elevate";
 
 export default function LoginForm({
     username = "NO USER",
 }: {
     username?: string;
 }) {
-    const [actionState, formAction] = useActionState(Login, null);
+    const [actionState, formAction] = useActionState(Elevate, null);
     const [submitted, setSubmitted] = useState(false);
 
     useEffect(() => {
