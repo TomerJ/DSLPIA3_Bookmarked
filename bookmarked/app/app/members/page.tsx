@@ -1,7 +1,7 @@
-import { faGavel, faStar } from "@fortawesome/free-solid-svg-icons";
+import { faGavel } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { RowDataPacket } from "mysql2/promise";
-import Navbar from "../../components/nav";
+import Navbar from "../../components/nav/nav";
 import { systemPool } from "../../util/connect";
 
 export default async function RegisterPage() {
@@ -58,24 +58,20 @@ export default async function RegisterPage() {
                                                     </h1>
                                                 </div>
                                                 <div className="flex items-center">
-                                                    
-                                                        {user?.privilege ==
-                                                            "admin" && (
-                                                                <div className="flex gap-x-1">
-                                                                <div className="badge badge-neutral badge-sm mr-1.5">
-                                                                    <FontAwesomeIcon
-                                                                        icon={
-                                                                            faGavel
-                                                                        }
-                                                                        className="h-3"
-                                                                    />
-                                                                    Admin
-                                                                </div>
-                                                                </div>
-                                                            )}
-
-
-                                                  
+                                                    {user?.privilege ==
+                                                        "admin" && (
+                                                        <div className="flex gap-x-1">
+                                                            <div className="badge badge-neutral badge-sm mr-1.5">
+                                                                <FontAwesomeIcon
+                                                                    icon={
+                                                                        faGavel
+                                                                    }
+                                                                    className="h-3"
+                                                                />
+                                                                Admin
+                                                            </div>
+                                                        </div>
+                                                    )}
 
                                                     <div className="font-inter text-xs">
                                                         <p>Lvl. 40</p>
@@ -85,7 +81,9 @@ export default async function RegisterPage() {
                                         </div>
                                         <a
                                             className="btn btn-sm btn-primary w-full rounded-sm mt-auto font-inter font-medium"
-                                            href={"/app/members/" + user.user_id}
+                                            href={
+                                                "/app/members/" + user.user_id
+                                            }
                                         >
                                             View Profile
                                         </a>
@@ -100,11 +98,33 @@ export default async function RegisterPage() {
                             type="radio"
                             name="options"
                             aria-label="1"
-                            defaultChecked={true} />
-                        <input className="join-item btn btn-square btn-sm" type="radio" name="options" aria-label="2" />
-                        <input disabled className="join-item btn btn-square btn-sm" type="radio" name="options" aria-label="..." />
-                        <input className="join-item btn btn-square btn-sm" type="radio" name="options" aria-label="4" />
-                        <input className="join-item btn btn-square btn-sm" type="radio" name="options" aria-label="5" />
+                            defaultChecked={true}
+                        />
+                        <input
+                            className="join-item btn btn-square btn-sm"
+                            type="radio"
+                            name="options"
+                            aria-label="2"
+                        />
+                        <input
+                            disabled
+                            className="join-item btn btn-square btn-sm"
+                            type="radio"
+                            name="options"
+                            aria-label="..."
+                        />
+                        <input
+                            className="join-item btn btn-square btn-sm"
+                            type="radio"
+                            name="options"
+                            aria-label="4"
+                        />
+                        <input
+                            className="join-item btn btn-square btn-sm"
+                            type="radio"
+                            name="options"
+                            aria-label="5"
+                        />
                     </div>
                 </div>
             </div>

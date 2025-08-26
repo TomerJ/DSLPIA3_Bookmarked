@@ -8,8 +8,8 @@ import {
     faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { GetUserInfo } from "../util/securepage";
-import Logout from "./logout";
+import { GetUserInfo } from "../../util/securepage";
+import Logout from "../logout";
 
 export default async function Navbar({
     showUser = true,
