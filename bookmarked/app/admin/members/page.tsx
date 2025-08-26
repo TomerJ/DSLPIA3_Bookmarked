@@ -1,12 +1,11 @@
-import AdminSidebar from "@/app/components/adminsidebar";
+import AdminSidebar from "@/app/components/admin/adminsidebar";
 import Navbar from "../../components/nav/nav";
 import { Members } from "./members";
-import { getUsers } from "@/app/util/admin";
 
 export default async function Admin() {
     return (
         <>
-            <Navbar showUser={false} />
+            <Navbar showElevated={true} />
             <div
                 className="flex min-h-[calc(100vh-5rem)] w-full"
                 style={{ height: "calc(100vh - 5rem)" }}

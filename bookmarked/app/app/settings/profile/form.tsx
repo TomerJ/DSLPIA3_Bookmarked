@@ -1,19 +1,26 @@
 "use client";
 
-import { getUserInformation, updateUser } from "@/app/util/admin";
+import { getUserInformation, updateProfile } from "@/app/util/admin";
 import { faCheck, faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useActionState, useEffect, useState } from "react";
+import Genres from "../../../components/settings/genres"; // Make sure the path is correct
 
-export default function EditUser({ userId }: { userId: number }) {
-    const [userData, setUserData] = useState<any>(null);
+export default function EditProfile({ userId }: { userId: number }) {
+    const [userInfo, setUserInfo] = useState<any>(null);
     const [loading, setLoading] = useState(true);
+    const [genres, setGenres] = useState<string>("");
 
     async function fetchUser() {
         setLoading(true);
         try {
             const data = await getUserInformation(userId);
-            setUserData(data.user);
+            setUserInfo(data);
+
+            // Initialize genres state from profile
+            if (data?.user?.genres) {
+                setGenres(data.user.genres); // Keep it as JSON string
+            }
         } finally {
             setLoading(false);
         }
@@ -25,7 +32,9 @@ export default function EditUser({ userId }: { userId: number }) {
 
     const [actionState, formAction] = useActionState(
         async (_: any, formData: FormData) => {
-            const result = await updateUser(_, formData);
+            // Ensure genres are included
+            formData.set("genres", genres);
+            const result = await updateProfile(_, formData);
             if (result?.success) {
                 await fetchUser();
             }
@@ -35,38 +44,38 @@ export default function EditUser({ userId }: { userId: number }) {
     );
 
     return (
-        <dialog id="edit_user" className="modal">
+        <dialog id="edit_profile" className="modal">
             <div className="modal-box w-xl">
                 {loading ? (
                     <div className="flex flex-col justify-center items-center h-full py-10">
                         <span className="loading loading-spinner loading-lg"></span>
-                        <p className="mt-4 text-sm">Loading user data...</p>
+                        <p className="mt-4 text-sm">
+                            Loading user information...
+                        </p>
                     </div>
-                ) : !userData ? (
+                ) : !userInfo || userInfo.error || !userInfo.user.xp ? (
                     <div className="alert alert-error mb-4 text-sm">
-                        <FontAwesomeIcon icon={faX} /> Failed to load user data.
+                        <FontAwesomeIcon icon={faX} />{" "}
+                        {userInfo?.error || "User does not have a profile."}
                     </div>
                 ) : (
                     <>
                         {actionState?.success && (
                             <div className="alert alert-success mb-4 text-sm">
-                                <FontAwesomeIcon icon={faCheck} /> User updated
-                                successfully
-                            </div>
-                        )}
-                        {actionState?.error && (
-                            <div className="alert alert-error mb-4 text-sm">
-                                <FontAwesomeIcon icon={faX} />{" "}
-                                {actionState.error}
+                                <FontAwesomeIcon icon={faCheck} /> Profile
+                                successfully updated
                             </div>
                         )}
 
                         <h3 className="font-bold text-lg mb-2 my-0">
-                            Editing User: {userData.username}
+                            Edit Profile: {userInfo.user.username}
                         </h3>
                         <div className="divider my-0"></div>
 
-                        <form action={formAction}>
+                        <form
+                            action={formAction}
+                            className="grid grid-cols-1 gap-2"
+                        >
                             <input
                                 type="hidden"
                                 name="user_id"
@@ -75,53 +84,63 @@ export default function EditUser({ userId }: { userId: number }) {
 
                             <fieldset className="fieldset">
                                 <legend className="fieldset-legend">
-                                    Username
+                                    Favourite Book
                                 </legend>
                                 <input
                                     type="text"
-                                    name="username"
+                                    name="favbook"
                                     className="input w-full focus:outline-none focus:border-none focus:ring-1 transition-all focus:ring-orange-700"
+                                    defaultValue={userInfo.user.fav_book || ""}
                                     placeholder="Type here"
-                                    defaultValue={userData.username}
                                 />
                             </fieldset>
 
-                            <fieldset className="fieldset mt-2">
+                            <fieldset className="fieldset">
                                 <legend className="fieldset-legend">
-                                    Email Address
+                                    Favourite Author
                                 </legend>
                                 <input
                                     type="text"
-                                    name="email"
+                                    name="favauthor"
                                     className="input w-full focus:outline-none focus:border-none focus:ring-1 transition-all focus:ring-orange-700"
+                                    defaultValue={
+                                        userInfo.user.fav_author || ""
+                                    }
                                     placeholder="Type here"
-                                    defaultValue={userData.email}
                                 />
                             </fieldset>
 
-                            <fieldset className="fieldset mt-2">
+                            <fieldset className="fieldset">
                                 <legend className="fieldset-legend">
-                                    Full Name
+                                    Preferred Genres
                                 </legend>
-                                <div className="flex gap-x-2">
-                                    <input
-                                        type="text"
-                                        name="firstname"
-                                        className="input w-full focus:outline-none focus:border-none focus:ring-1 transition-all focus:ring-orange-700"
-                                        placeholder="First Name"
-                                        defaultValue={userData.firstname}
-                                    />
-                                    <input
-                                        type="text"
-                                        name="lastname"
-                                        className="input w-full focus:outline-none focus:border-none focus:ring-1 transition-all focus:ring-orange-700"
-                                        placeholder="Last Name"
-                                        defaultValue={userData.lastname}
-                                    />
-                                </div>
+
+                                <Genres
+                                    defaultGenres={
+                                        userInfo.user.genres
+                                            ? JSON.parse(userInfo.user.genres)
+                                            : []
+                                    }
+                                    onChange={setGenres}
+                                />
+                                <input
+                                    type="hidden"
+                                    name="genres"
+                                    value={genres}
+                                />
                             </fieldset>
 
-                            <div className="modal-action flex mt-4">
+                            <fieldset className="fieldset">
+                                <legend className="fieldset-legend">Bio</legend>
+                                <textarea
+                                    name="bio"
+                                    className="textarea w-full focus:outline-none focus:border-none focus:ring-1 transition-all focus:ring-orange-700"
+                                    placeholder="Type here"
+                                    defaultValue={userInfo.user.bio || ""}
+                                />
+                            </fieldset>
+
+                            <div className="modal-action flex gap-2 mt-2">
                                 <button
                                     className="btn btn-sm btn-success rounded-sm"
                                     type="submit"
@@ -133,12 +152,12 @@ export default function EditUser({ userId }: { userId: number }) {
                                     className="btn btn-sm rounded-sm"
                                     onClick={() => {
                                         const dialog = document.getElementById(
-                                            "edit_user"
+                                            "edit_profile"
                                         ) as HTMLDialogElement;
                                         dialog?.close();
                                     }}
                                 >
-                                    Cancel
+                                    Close
                                 </button>
                             </div>
                         </form>

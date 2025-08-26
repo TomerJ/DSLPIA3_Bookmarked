@@ -3,7 +3,7 @@ import { cookies } from 'next/headers';
 import { redirect } from "next/navigation";
 import { systemPool } from "./connect";
 
-export async function getSession(elevated: boolean|null = true): Promise<RowDataPacket | null> {
+export async function getSession(elevated: boolean | null = false): Promise<RowDataPacket | null> {
     const connection = await systemPool.getConnection();
     const cookieStore = await cookies()
 
@@ -11,15 +11,16 @@ export async function getSession(elevated: boolean|null = true): Promise<RowData
     if (!sessionToken) {
         return null
     }
-    console.log(sessionToken)
     const [sessionRes] = await connection.execute<RowDataPacket[]>(
-       "SELECT users.id AS user_id, users.username, users.email, users.firstname, users.lastname, users.privilege, users.avatar, users.dob, sessions.started_at, sessions.elevated_at, profiles.fav_book, profiles.fav_author, profiles.genres, profiles.xp, profiles.bio FROM sessions JOIN users ON sessions.user = users.id LEFT JOIN profiles ON users.id = profiles.user_id WHERE sessions.session_token = ? AND sessions.started_at < ?",
+        "SELECT users.id AS user_id, users.username, users.email, users.firstname, users.lastname, users.privilege, users.avatar, users.dob, sessions.started_at, sessions.elevated_at, profiles.fav_book, profiles.fav_author, profiles.genres, profiles.xp, profiles.bio FROM sessions JOIN users ON sessions.user = users.id LEFT JOIN profiles ON users.id = profiles.user_id WHERE sessions.session_token = ? AND sessions.started_at < ?",
         [sessionToken, new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)]
     );
     connection.release();
-    if(elevated) {
-        console.log(sessionRes[0].elevated_at < new Date(Date.now() + 10 * 60 * 1000))
-        if(sessionRes[0].elevated_at && sessionRes[0].elevated_at < new Date(Date.now() + 10 * 60 * 1000)) {
+    if (elevated) {
+        if (sessionRes[0].privilege != 'admin') {
+            redirect('/elevate')
+        }
+        if (sessionRes[0].elevated_at && sessionRes[0].elevated_at < new Date(Date.now() + 3 * 60 * 1000)) {
             return sessionRes[0];
         } else {
             redirect('/elevate')
@@ -27,7 +28,7 @@ export async function getSession(elevated: boolean|null = true): Promise<RowData
     }
 
     return sessionRes[0];
-    
+
 }
 export async function SecurePage(elevated: boolean = false) {
 
@@ -38,13 +39,11 @@ export async function SecurePage(elevated: boolean = false) {
     if (!session) {
         redirect('/login')
     }
-    console.log(session.profile)
-    if(session.xp == null) {
-        
+    if (session.xp == null) {
+
         redirect('/register/profile')
     }
-    console.log();
-    //redirect("/app");
+
 }
 
 

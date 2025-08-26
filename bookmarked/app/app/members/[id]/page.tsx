@@ -3,32 +3,24 @@ import {
     faBookBookmark,
     faGavel,
     faPencil,
-    faPerson,
-    faStar,
-    faTrophy,
     faUser,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Navbar from "../../../components/nav";
+import Navbar from "../../../components/nav/nav";
 import Activity from "./activity";
 
-
-import argon2 from "argon2";
-import fs from "fs";
 import type * as jdenticonTypes from "jdenticon";
 var jdenticon = require("jdenticon") as typeof jdenticonTypes;
 
-import { systemPool } from "@util/connect";
-import { ResultSetHeader, RowDataPacket } from "mysql2/promise";
-import { redirect } from "next/navigation";
+import Level from "@/app/components/level";
 import { genreList } from "@/app/util/genrelist";
-
+import { systemPool } from "@util/connect";
+import { RowDataPacket } from "mysql2/promise";
+import { redirect } from "next/navigation";
 
 export default async function App({ params }: { params: { id: string } }) {
-    const { id } = await params
-
-    console.log(id)
+    const { id } = await params;
 
     const connection = await systemPool.getConnection();
     const [userInfo] = await connection.execute<RowDataPacket[]>(
@@ -49,21 +41,16 @@ export default async function App({ params }: { params: { id: string } }) {
     );
 
     if (userInfo.length < 1) {
-        redirect('/app/members/')
+        redirect("/app/members/");
     }
 
-
     connection.release();
-    console.log(userInfo)
 
-
-
-    const prefGenres: string[] = JSON.parse(userInfo[0].genres || '[]');
-
-
+    const prefGenres: string[] = JSON.parse(userInfo[0].genres || "[]");
     const filteredGenres = genreList.filter((genre) =>
         prefGenres.includes(genre.label)
     );
+
     return (
         <>
             <Navbar />
@@ -72,68 +59,35 @@ export default async function App({ params }: { params: { id: string } }) {
                 style={{ minHeight: "calc(100vh - 5rem)" }}
             >
                 <div className="lg:w-5/6 w-full p-2 lg:h-fit mx-auto my-auto flex flex-col gap-y-4">
-                    <div className=" w-full mx-auto h-full lg:h-auto flex gap-x-4">
-                        <div className="w-1/3 bg-base-100 p-6 drop-shadow-md">
-                            <div className="font-rubik  flex items-center justify-center mt-3">
-
-
-                                <div className="p-3 flex flex-col gap-y-1">
-                                    <img
-                                        src={`data:image/png;base64,${userInfo[0].avatar.toString(
-                                            "base64"
-                                        )}`}
-                                        className="h-72 w-72 bg-base-200 rounded-sm p-1"
-                                    ></img>
-                                    <div className="">
-                                        <h1 className="text-lg font-bold">{userInfo[0].username}</h1>
-                                        <div className="flex gap-x-1">
-                                            <div className="badge badge-neutral badge-sm">
-                                                <FontAwesomeIcon icon={faGavel} className="w-3" />
-                                                Admin
-                                            </div>
-                                        </div>
+                    <div className="w-full mx-auto flex gap-x-4 items-stretch">
+                        <div className="w-1/3 bg-base-100 p-6 drop-shadow-md flex flex-col items-center justify-start">
+                            <div className="font-rubik flex flex-col items-center mt-3 h-full">
+                                <img
+                                    src={`data:image/png;base64,${userInfo[0].avatar.toString(
+                                        "base64"
+                                    )}`}
+                                    className="h-80 w-80  rounded-sm p-1  object-contain"
+                                />
+                                <h1 className="text-2xl font-bold mt-4">
+                                    {userInfo[0].username}
+                                </h1>
+                                <div className="flex gap-x-1 mt-2">
+                                    <div className="badge badge-neutral badge-sm">
+                                        <FontAwesomeIcon
+                                            icon={faGavel}
+                                            className="w-3"
+                                        />{" "}
+                                        Admin
                                     </div>
                                 </div>
-
-
                             </div>
-
                         </div>
 
-                        <div className="w-3/4 bg-base-100 p-6 drop-shadow-md">
+                        <div className="w-2/3 bg-base-100 p-6 drop-shadow-md flex flex-col justify-between">
                             <div className="font-rubik">
-
                                 <Activity />
                                 <div className="stats shadow mt-4 w-full stats-vertical lg:stats-horizontal">
-                                    <div className="stat">
-                                        <div className="stat-figure text-primary">
-                                            <FontAwesomeIcon
-                                                icon={faTrophy}
-                                                className="text-4xl"
-                                            />
-                                        </div>
-                                        <div className="stat-title">
-                                            Current Level
-                                        </div>
-                                        <div className="stat-value text-primary">
-                                            {Math.floor(userInfo[0].xp / 10)}
-                                        </div>
-                                        <div className="stat-desc">
-                                            <div className="flex gap-x-1.5 items-center">
-                                                <progress
-                                                    className="progress progress-primary"
-                                                    value={userInfo[0].xp % 10}
-                                                    max="10"
-                                                ></progress>
-                                                <p className="text-xs">
-                                                    {10 - (userInfo[0].xp % 10)} xp until next level
-                                                </p>
-                                            </div>
-                                            <hr className="text-base-300 my-2" />
-                                            <p className="text-xs">{userInfo[0].xp | 0} xp</p>
-                                        </div>
-                                    </div>
-
+                                    <Level xp={userInfo[0].xp} />
                                     <div className="stat">
                                         <div className="stat-figure text-accent">
                                             <FontAwesomeIcon
@@ -164,64 +118,85 @@ export default async function App({ params }: { params: { id: string } }) {
                                         </div>
                                     </div>
                                 </div>
+                            </div>
 
-                                <div className="shadow rounded-lg text-zinc-700 mt-4">
-                                    <div className="p-5">
+                            <div className="flex flex-col gap-4 mt-4 h-full">
+                                <div className="shadow rounded-lg text-zinc-700 flex-1">
+                                    <div className="p-5 h-full">
                                         <h3>Favourites</h3>
-                                        <hr className="text-base-300 my-2"></hr>
+                                        <hr className="text-base-300 my-2" />
                                         <div className="flex items-center text-xs">
-                                            <FontAwesomeIcon icon={faUser} className="w-3 mr-0.5" />
-                                            <p><span className="font-bold">Author: </span>{userInfo[0].fav_author}</p>
+                                            <FontAwesomeIcon
+                                                icon={faUser}
+                                                className="w-3 mr-0.5"
+                                            />
+                                            <p>
+                                                <span className="font-bold">
+                                                    Author:{" "}
+                                                </span>
+                                                {userInfo[0].fav_author ||
+                                                    "N/A"}
+                                            </p>
                                         </div>
                                         <div className="flex items-center text-xs">
-                                            <FontAwesomeIcon icon={faBook} className="w-3 mr-0.5" />
-                                            <p><span className="font-bold">Book: </span>{userInfo[0].fav_book}</p>
+                                            <FontAwesomeIcon
+                                                icon={faBook}
+                                                className="w-3 mr-0.5"
+                                            />
+                                            <p>
+                                                <span className="font-bold">
+                                                    Book:{" "}
+                                                </span>
+                                                {userInfo[0].fav_book || "N/A"}
+                                            </p>
                                         </div>
-                             
                                     </div>
                                 </div>
 
-                                <div className="shadow rounded-lg text-zinc-700 mt-4">
-                                    <div className="p-5">
+                                <div className="shadow rounded-lg text-zinc-700 flex-1">
+                                    <div className="p-5 h-full">
                                         <h3>About</h3>
-                                        <hr className="text-base-300 my-2"></hr>
-                                        <p className="text-xs">{userInfo[0].bio || "User doesn't have a bio"}</p>
+                                        <hr className="text-base-300 my-2" />
+                                        <p className="text-xs">
+                                            {userInfo[0].bio ||
+                                                "User doesn't have a bio"}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div className="shadow rounded-lg text-zinc-700 flex-1">
+                                    <div className="p-5 h-full">
+                                        <h3>Preferred Genres</h3>
+                                        <hr className="text-base-300 my-2" />
+                                        <div className="flex flex-wrap gap-2">
+                                            {filteredGenres.map((genre, id) => (
+                                                <div
+                                                    className="badge badge-primary badge-sm w-fit px-3 py-1 flex items-center gap-1"
+                                                    key={id}
+                                                >
+                                                    <FontAwesomeIcon
+                                                        icon={genre.icon}
+                                                        className="w-3"
+                                                    />
+                                                    {genre.label}
+                                                </div>
+                                            ))}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-
-                            <div className="shadow rounded-lg text-zinc-700 mt-4">
-                                <div className="p-5">
-                                    <h3>Preferred Genres</h3>
-                                    <hr className="text-base-300 my-2" />
-                                    <div className="flex flex-wrap gap-2">
-                                        {filteredGenres.map((genre, id) => (
-                                            <div
-                                                className="badge badge-primary badge-sm w-fit px-3 py-1 flex items-center gap-1"
-                                                key={id}
-                                            >
-                                                <FontAwesomeIcon icon={genre.icon} className="w-3" />
-                                                {genre.label}
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            </div>
-
-
-
                         </div>
                     </div>
 
-                    <div className="p-9 bg-base-100 container w-full mx-auto h-full lg:h-auto drop-shadow-md">
+                    <div className="w-full mx-auto p-9 bg-base-100 drop-shadow-md">
                         <div className="font-rubik">
                             <h2 className="text-xl font-normal mb-2">
-                                xxppcashmoneygamergirlxx's reviews:
+                                {userInfo[0].username}'s reviews:
                             </h2>
                             <div className="divider"></div>
                             <ul className="list bg-base-100 rounded-box shadow-md">
                                 <li className="p-4 pb-2 text-xs opacity-60 tracking-wide">
-                                    Most played songs this week
+                                    Recent reviews
                                 </li>
 
                                 <li className="list-row">
@@ -241,278 +216,19 @@ export default async function App({ params }: { params: { id: string } }) {
                                             Jason Respons
                                         </div>
                                         <p className="list-col-wrap text-xs">
-                                            I was raised with the help of a
-                                            white grandfather who survived a
-                                            Depression to serve in Patton's Army
-                                            during World War II and a white
-                                            grandmother who worked on a bomber
-                                            assembly line at Fort Leavenworth
-                                            while he was overseas...
+                                            Mudfish gopher rockfish barramundi,
+                                            yellow weaver Australian herring
+                                            weatherfish gulper eel candlefish
+                                            tiger shovelnose catfish pearl
+                                            danio. Demoiselle southern hake dab:
+                                            pilchard snubnose parasitic eel.
+                                            Bobtail snipe eel, bigeye squaretail
+                                            sand dab European perch...
                                         </p>
                                     </div>
-
-                                    <button className="btn btn-square btn-ghost">
-                                        <svg
-                                            className="size-[1.2em]"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            viewBox="0 0 24 24"
-                                        >
-                                            <g
-                                                strokeLinejoin="round"
-                                                strokeLinecap="round"
-                                                strokeWidth="2"
-                                                fill="none"
-                                                stroke="currentColor"
-                                            >
-                                                <path d="M6 3L20 12 6 21 6 3z"></path>
-                                            </g>
-                                        </svg>
-                                    </button>
-                                    <button className="btn btn-square btn-ghost">
-                                        <svg
-                                            className="size-[1.2em]"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            viewBox="0 0 24 24"
-                                        >
-                                            <g
-                                                strokeLinejoin="round"
-                                                strokeLinecap="round"
-                                                strokeWidth="2"
-                                                fill="none"
-                                                stroke="currentColor"
-                                            >
-                                                <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path>
-                                            </g>
-                                        </svg>
-                                    </button>
-                                </li>
-
-                                <li className="list-row">
-                                    <div>
-                                        <img
-                                            className="size-10 rounded-box"
-                                            src="https://img.daisyui.com/images/profile/demo/4@94.webp"
-                                        />
-                                    </div>
-                                    <div>
-                                        <div>Ellie Beilish</div>
-                                        <div className="text-xs uppercase font-semibold opacity-60">
-                                            Bears of a fever
-                                        </div>
-                                    </div>
-                                    <p className="list-col-wrap text-xs">
-                                        "Bears of a Fever" captivated audiences
-                                        with its intense energy and mysterious
-                                        lyrics. Its popularity skyrocketed after
-                                        fans shared it widely online, earning
-                                        Ellie critical acclaim.
-                                    </p>
-                                    <button className="btn btn-square btn-ghost">
-                                        <svg
-                                            className="size-[1.2em]"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            viewBox="0 0 24 24"
-                                        >
-                                            <g
-                                                strokeLinejoin="round"
-                                                strokeLinecap="round"
-                                                strokeWidth="2"
-                                                fill="none"
-                                                stroke="currentColor"
-                                            >
-                                                <path d="M6 3L20 12 6 21 6 3z"></path>
-                                            </g>
-                                        </svg>
-                                    </button>
-                                    <button className="btn btn-square btn-ghost">
-                                        <svg
-                                            className="size-[1.2em]"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            viewBox="0 0 24 24"
-                                        >
-                                            <g
-                                                strokeLinejoin="round"
-                                                strokeLinecap="round"
-                                                strokeWidth="2"
-                                                fill="none"
-                                                stroke="currentColor"
-                                            >
-                                                <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path>
-                                            </g>
-                                        </svg>
-                                    </button>
-                                </li>
-
-                                <li className="list-row">
-                                    <div>
-                                        <img
-                                            className="size-10 rounded-box"
-                                            src="https://img.daisyui.com/images/profile/demo/3@94.webp"
-                                        />
-                                    </div>
-                                    <div>
-                                        <div>Sabrino Gardener</div>
-                                        <div className="text-xs uppercase font-semibold opacity-60">
-                                            Cappuccino
-                                        </div>
-                                    </div>
-                                    <p className="list-col-wrap text-xs">
-                                        "Cappuccino" quickly gained attention
-                                        for its smooth melody and relatable
-                                        themes. The song's success propelled
-                                        Sabrino into the spotlight, solidifying
-                                        their status as a rising star.
-                                    </p>
-                                    <button className="btn btn-square btn-ghost">
-                                        <svg
-                                            className="size-[1.2em]"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            viewBox="0 0 24 24"
-                                        >
-                                            <g
-                                                strokeLinejoin="round"
-                                                strokeLinecap="round"
-                                                strokeWidth="2"
-                                                fill="none"
-                                                stroke="currentColor"
-                                            >
-                                                <path d="M6 3L20 12 6 21 6 3z"></path>
-                                            </g>
-                                        </svg>
-                                    </button>
-                                    <button className="btn btn-square btn-ghost">
-                                        <svg
-                                            className="size-[1.2em]"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            viewBox="0 0 24 24"
-                                        >
-                                            <g
-                                                strokeLinejoin="round"
-                                                strokeLinecap="round"
-                                                strokeWidth="2"
-                                                fill="none"
-                                                stroke="currentColor"
-                                            >
-                                                <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path>
-                                            </g>
-                                        </svg>
-                                    </button>
                                 </li>
                             </ul>
                         </div>
-                    </div>
-                    <div className="dock md:invisible">
-                        <button>
-                            <svg
-                                className="size-[1.2em]"
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 24 24"
-                            >
-                                <g
-                                    fill="currentColor"
-                                    strokeLinejoin="miter"
-                                    strokeLinecap="butt"
-                                >
-                                    <polyline
-                                        points="1 11 12 2 23 11"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        strokeMiterlimit="10"
-                                        strokeWidth="2"
-                                    ></polyline>
-                                    <path
-                                        d="m5,13v7c0,1.105.895,2,2,2h10c1.105,0,2-.895,2-2v-7"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        strokeLinecap="square"
-                                        strokeMiterlimit="10"
-                                        strokeWidth="2"
-                                    ></path>
-                                    <line
-                                        x1="12"
-                                        y1="22"
-                                        x2="12"
-                                        y2="18"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        strokeLinecap="square"
-                                        strokeMiterlimit="10"
-                                        strokeWidth="2"
-                                    ></line>
-                                </g>
-                            </svg>
-                            <span className="dock-label">Home</span>
-                        </button>
-
-                        <button className="dock-active">
-                            <svg
-                                className="size-[1.2em]"
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 24 24"
-                            >
-                                <g
-                                    fill="currentColor"
-                                    strokeLinejoin="miter"
-                                    strokeLinecap="butt"
-                                >
-                                    <polyline
-                                        points="3 14 9 14 9 17 15 17 15 14 21 14"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        strokeMiterlimit="10"
-                                        strokeWidth="2"
-                                    ></polyline>
-                                    <rect
-                                        x="3"
-                                        y="3"
-                                        width="18"
-                                        height="18"
-                                        rx="2"
-                                        ry="2"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        strokeLinecap="square"
-                                        strokeMiterlimit="10"
-                                        strokeWidth="2"
-                                    ></rect>
-                                </g>
-                            </svg>
-                            <span className="dock-label">Inbox</span>
-                        </button>
-
-                        <button>
-                            <svg
-                                className="size-[1.2em]"
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 24 24"
-                            >
-                                <g
-                                    fill="currentColor"
-                                    strokeLinejoin="miter"
-                                    strokeLinecap="butt"
-                                >
-                                    <circle
-                                        cx="12"
-                                        cy="12"
-                                        r="3"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        strokeLinecap="square"
-                                        strokeMiterlimit="10"
-                                        strokeWidth="2"
-                                    ></circle>
-                                    <path
-                                        d="m22,13.25v-2.5l-2.318-.966c-.167-.581-.395-1.135-.682-1.654l.954-2.318-1.768-1.768-2.318.954c-.518-.287-1.073-.515-1.654-.682l-.966-2.318h-2.5l-.966,2.318c-.581.167-1.135.395-1.654.682l-2.318-.954-1.768,1.768.954,2.318c-.287.518-.515,1.073-.682,1.654l-2.318.966v2.5l2.318.966c.167.581.395,1.135.682,1.654l-.954,2.318,1.768,1.768,2.318-.954c.518.287,1.073.515,1.654.682l.966,2.318h2.5l.966-2.318c.581-.167,1.135-.395,1.654-.682l2.318.954,1.768-1.768-.954-2.318c.287-.518.515-1.073.682-1.654l2.318-.966Z"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        strokeLinecap="square"
-                                        strokeMiterlimit="10"
-                                        strokeWidth="2"
-                                    ></path>
-                                </g>
-                            </svg>
-                            <span className="dock-label">Settings</span>
-                        </button>
                     </div>
                 </div>
             </div>

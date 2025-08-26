@@ -1,12 +1,7 @@
-"use client"
+"use client";
 
-import SettingsSidebar from "@/app/components/settingssidebar";
-import { faCheck, faX } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import MainContainer from "../../components/main";
-import Navbar from "../../components/nav";
-import Genres from "../../components/genres";
 import { useActionState, useState } from "react";
+import Genres from "../../components/settings/genres";
 import { CreateProfile } from "../register";
 
 export default function ProfileForm({
@@ -23,7 +18,7 @@ export default function ProfileForm({
     status?: (message: string, type: "success" | "danger" | "warning") => void;
     adminDefault?: boolean;
 }) {
-    const [genres, setGenres] = useState("")
+    const [genres, setGenres] = useState("");
 
     const [actionState, formAction] = useActionState(CreateProfile, null);
 
@@ -31,9 +26,7 @@ export default function ProfileForm({
         <form action={formAction}>
             <div className="grid grid-cols-1 gap-2">
                 <fieldset className="fieldset">
-                    <legend className="fieldset-legend">
-                        Favourite Book
-                    </legend>
+                    <legend className="fieldset-legend">Favourite Book</legend>
                     <input
                         type="text"
                         name="favbook"
@@ -66,9 +59,7 @@ export default function ProfileForm({
                 <input type="hidden" value={genres} name="genres"></input>
 
                 <fieldset className="fieldset">
-                    <legend className="fieldset-legend">
-                        Bio
-                    </legend>
+                    <legend className="fieldset-legend">Bio</legend>
                     <textarea
                         className="textarea w-full focus:outline-none focus:border-none focus:ring-1 transition-all focus:ring-orange-700"
                         placeholder="Type here"

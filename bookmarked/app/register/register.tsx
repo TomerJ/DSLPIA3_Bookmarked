@@ -1,7 +1,6 @@
 "use server";
 
 import argon2 from "argon2";
-import fs from "fs";
 import type * as jdenticonTypes from "jdenticon";
 var jdenticon = require("jdenticon") as typeof jdenticonTypes;
 
@@ -17,7 +16,6 @@ export async function ValidateCode(_: any, data: FormData) {
         "SELECT * FROM access_codes WHERE code = ?",
         [code]
     );
-        console.log(code)
     connection.release();
     if (accessCodeCheck.length > 0) {
         return {
@@ -29,40 +27,28 @@ export async function ValidateCode(_: any, data: FormData) {
             error: "Invalid access code.",
         };
     }
-
-
-    
 }
 
 export async function CreateProfile(_: any, data: FormData) {
-    
     const connection = await systemPool.getConnection();
-    const session = await getSession()
-    if(!session) {
-        redirect('/login')
-    };
-    console.log(session)
+    const session = await getSession();
+    if (!session) {
+        redirect("/login");
+    }
     let favBook = data.get("favbook") as string | null;
     let favAuthor = data.get("favauthor") as string | null;
     let genres = data.get("genres") as string | null;
     let bio = data.get("bio") as string | null;
     await connection.execute<ResultSetHeader>(
         "INSERT INTO profiles (user_id, fav_book, fav_author, genres, bio) VALUES (?, ?, ?, ?, ?)",
-        [
-            session.user_id,
-            favBook,
-            favAuthor,
-            genres,
-            bio
-        ]
+        [session.user_id, favBook, favAuthor, genres, bio]
     );
 
-
     connection.release();
-    redirect('/app')
+    redirect("/app");
 }
 export async function Register(_: any, data: FormData) {
-    if(!((await ValidateCode(null, data)).success)) {
+    if (!(await ValidateCode(null, data)).success) {
         return {
             error: "Invalid access code",
             data,
@@ -82,9 +68,6 @@ export async function Register(_: any, data: FormData) {
     let confirmpassword = data.get("confirmpassword") as string | null;
 
     let accessCode = data.get("accesscode") as string | null;
-    const userCheck = /^[a-zA-Z0-9_]+$/;
-
-
 
     if (
         !username ||
@@ -103,10 +86,10 @@ export async function Register(_: any, data: FormData) {
         };
     }
 
-
-
     email = email.trim();
     password = password.trim();
+    const userCheck = /^[a-zA-Z0-9_]+$/;
+
     if (!userCheck.test(username) || username.length > 22) {
         return {
             error: "Usernames can only consist of a maximum of 22 alphanumeric characters or underscores.",
@@ -124,7 +107,6 @@ export async function Register(_: any, data: FormData) {
     const png = jdenticon.toPng(username, 512, {
         backColor: "#ffffff",
     });
-    fs.writeFileSync("./testicon.png", png);
 
     if (password != confirmpassword.trim()) {
         return {
@@ -134,7 +116,6 @@ export async function Register(_: any, data: FormData) {
     }
 
     const connection = await systemPool.getConnection();
-
 
     const [usernameCheck] = await connection.execute<RowDataPacket[]>(
         "SELECT * FROM users WHERE username = ?",
@@ -169,8 +150,9 @@ export async function Register(_: any, data: FormData) {
         "INSERT INTO users (username, firstname, lastname, email, avatar, password, dob) VALUES (?, ?, ?, ?, ?, ?, ?)",
         [
             username,
-            firstname,
-            lastname,
+            firstname.charAt(0).toUpperCase() +
+                firstname.slice(1).toLowerCase(),
+            lastname.charAt(0).toUpperCase() + lastname.slice(1).toLowerCase(),
             email,
             png,
             await argon2.hash(password),
@@ -179,7 +161,6 @@ export async function Register(_: any, data: FormData) {
     );
 
     const userId = userResult.insertId;
-
 
     connection.release();
     redirect("/app");

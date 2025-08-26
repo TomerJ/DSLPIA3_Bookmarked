@@ -3,12 +3,9 @@
 import { systemPool } from "@util/connect";
 import argon2 from "argon2";
 import * as crypto from "crypto";
-import fs from "fs";
-import type * as jdenticonTypes from "jdenticon";
 import { RowDataPacket } from "mysql2/promise";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-var jdenticon = require("jdenticon") as typeof jdenticonTypes;
 
 export async function Login(_: any, data: FormData) {
     let username = data.get("username") as string | null;
@@ -22,10 +19,6 @@ export async function Login(_: any, data: FormData) {
     }
     username = username.trim();
     password = password.trim();
-    const png = jdenticon.toPng(username, 512, {
-        backColor: "#ffffff",
-    });
-    fs.writeFileSync("./testicon.png", png);
 
     const connection = await systemPool.getConnection();
 
@@ -34,7 +27,6 @@ export async function Login(_: any, data: FormData) {
         [username]
     );
 
-    console.log(userRes);
     if (
         userRes.length == 0 ||
         !(await argon2.verify(userRes[0].password, password))
@@ -59,8 +51,6 @@ export async function Login(_: any, data: FormData) {
         sameSite: "strict",
         maxAge: 60 * 60 * 24 * 28,
     });
-
-    console.log(await argon2.verify(userRes[0].password, password));
 
     connection.release();
     redirect("/app");

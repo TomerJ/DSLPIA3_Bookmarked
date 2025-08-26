@@ -2,7 +2,6 @@ require('dotenv').config()
 
 import mysql from 'mysql2/promise';
 
-console.log(process.env.DB_HOST)
 export const pool = mysql.createPool({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
@@ -13,10 +12,10 @@ export const pool = mysql.createPool({
     queueLimit: 0,
 });
 
-export const elevatedPool = mysql.createPool({
+export const adminPool = mysql.createPool({
     host: process.env.DB_HOST,
-    user: process.env.DB_ELEVATED_USER,
-    password: process.env.DB_ELEVATED_PASSWORD,
+    user: process.env.DB_SYSTEM_USER,
+    password: process.env.DB_SYSTEM_PASSWORD,
     database: process.env.DB_NAME,
     waitForConnections: true,
     connectionLimit: 10,

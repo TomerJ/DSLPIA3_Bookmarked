@@ -34,11 +34,7 @@ export default function RegisterMainForm({
 
             <div className="font-inter">
                 <form action={formAction}>
-                    <input
-                        type="hidden"
-                        name="accesscode"
-                        value={accessCode}
-                    />
+                    <input type="hidden" name="accesscode" value={accessCode} />
                     <div className="gap-y-1 flex flex-col">
                         <fieldset className="fieldset">
                             <legend className="fieldset-legend">

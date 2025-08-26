@@ -19,7 +19,7 @@ export default async function SettingsSidebar() {
                             flex flex-col w-full gap-y-4"
                 >
                     <li className="h-7">
-                        <a href="#" className="py-3">
+                        <a href="/app/settings/user" className="py-3">
                             <FontAwesomeIcon
                                 icon={faGears}
                                 className="mr-1 h-3.5 w-3.5"
@@ -28,7 +28,7 @@ export default async function SettingsSidebar() {
                         </a>
                     </li>
                     <li className="h-7">
-                        <a href="#" className="py-3">
+                        <a href="/app/settings/profile" className="py-3">
                             <FontAwesomeIcon
                                 icon={faUserGear}
                                 className="mr-1 h-3.5 w-3.5"
@@ -36,7 +36,6 @@ export default async function SettingsSidebar() {
                             Profile Settings
                         </a>
                     </li>
-
                 </ul>
             </aside>
 
@@ -53,7 +52,10 @@ export default async function SettingsSidebar() {
                     <span className="dock-label">Members</span>
                 </button>
                 <button>
-                    <FontAwesomeIcon icon={faEnvelope} className="h-3.5 w-3.5" />
+                    <FontAwesomeIcon
+                        icon={faEnvelope}
+                        className="h-3.5 w-3.5"
+                    />
 
                     <span className="dock-label">Invites</span>
                 </button>
