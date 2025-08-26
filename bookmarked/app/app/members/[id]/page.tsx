@@ -1,42 +1,95 @@
 import {
+    faBook,
     faBookBookmark,
     faGavel,
     faPencil,
+    faPerson,
     faStar,
     faTrophy,
+    faUser,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Navbar from "../../../components/nav";
 import Activity from "./activity";
 
-export default async function App() {
+
+import argon2 from "argon2";
+import fs from "fs";
+import type * as jdenticonTypes from "jdenticon";
+var jdenticon = require("jdenticon") as typeof jdenticonTypes;
+
+import { systemPool } from "@util/connect";
+import { ResultSetHeader, RowDataPacket } from "mysql2/promise";
+import { redirect } from "next/navigation";
+import { genreList } from "@/app/util/genrelist";
+
+
+export default async function App({ params }: { params: { id: string } }) {
+    const { id } = await params
+
+    console.log(id)
+
+    const connection = await systemPool.getConnection();
+    const [userInfo] = await connection.execute<RowDataPacket[]>(
+        `SELECT 
+           users.id AS user_id,
+           users.username,
+           users.email,
+           profiles.bio,
+           profiles.xp,
+           profiles.genres,
+           profiles.fav_book,
+           profiles.fav_author,
+           users.avatar
+         FROM users
+         LEFT JOIN profiles ON users.id = profiles.user_id
+         WHERE users.id = ?`,
+        [id]
+    );
+
+    if (userInfo.length < 1) {
+        redirect('/app/members/')
+    }
+
+
+    connection.release();
+    console.log(userInfo)
+
+
+
+    const prefGenres: string[] = JSON.parse(userInfo[0].genres || '[]');
+
+
+    const filteredGenres = genreList.filter((genre) =>
+        prefGenres.includes(genre.label)
+    );
     return (
         <>
-            <Navbar showUser={false} />
+            <Navbar />
             <div
                 className="dots flex items-center justify-center py-10"
                 style={{ minHeight: "calc(100vh - 5rem)" }}
             >
                 <div className="lg:w-5/6 w-full p-2 lg:h-fit mx-auto my-auto flex flex-col gap-y-4">
                     <div className=" w-full mx-auto h-full lg:h-auto flex gap-x-4">
-                        {/* Left container (30%) */}
                         <div className="w-1/3 bg-base-100 p-6 drop-shadow-md">
                             <div className="font-rubik  flex items-center justify-center mt-3">
 
 
                                 <div className="p-3 flex flex-col gap-y-1">
-                                    <img src="https://placehold.co/1024" className="h-72 w-72"></img>
+                                    <img
+                                        src={`data:image/png;base64,${userInfo[0].avatar.toString(
+                                            "base64"
+                                        )}`}
+                                        className="h-72 w-72 bg-base-200 rounded-sm p-1"
+                                    ></img>
                                     <div className="">
-                                        <h1 className="text-lg font-bold">xxppcashmoneygamergirlxx</h1>
-                                        <div className="flex gap-x-1 5">
+                                        <h1 className="text-lg font-bold">{userInfo[0].username}</h1>
+                                        <div className="flex gap-x-1">
                                             <div className="badge badge-neutral badge-sm">
                                                 <FontAwesomeIcon icon={faGavel} className="w-3" />
                                                 Admin
-                                            </div>
-                                            <div className="badge badge-neutral bg-violet-500 border-violet-500 badge-sm">
-                                                <FontAwesomeIcon icon={faStar} className="w-3" />
-                                                Lvl. 69420
                                             </div>
                                         </div>
                                     </div>
@@ -47,43 +100,123 @@ export default async function App() {
 
                         </div>
 
-                        {/* Right container (70%) */}
                         <div className="w-3/4 bg-base-100 p-6 drop-shadow-md">
                             <div className="font-rubik">
 
-                                <Activity/>
+                                <Activity />
                                 <div className="stats shadow mt-4 w-full stats-vertical lg:stats-horizontal">
                                     <div className="stat">
-                                        <div className="stat-figure text-accent">
-                                            <FontAwesomeIcon icon={faPencil} className="text-4xl" />
+                                        <div className="stat-figure text-primary">
+                                            <FontAwesomeIcon
+                                                icon={faTrophy}
+                                                className="text-4xl"
+                                            />
                                         </div>
-                                        <div className="stat-title">Reviews Written</div>
-                                        <div className="stat-value text-accent">3</div>
-                                        <div className="stat-desc">21% more than last month</div>
+                                        <div className="stat-title">
+                                            Current Level
+                                        </div>
+                                        <div className="stat-value text-primary">
+                                            {Math.floor(userInfo[0].xp / 10)}
+                                        </div>
+                                        <div className="stat-desc">
+                                            <div className="flex gap-x-1.5 items-center">
+                                                <progress
+                                                    className="progress progress-primary"
+                                                    value={userInfo[0].xp % 10}
+                                                    max="10"
+                                                ></progress>
+                                                <p className="text-xs">
+                                                    {10 - (userInfo[0].xp % 10)} xp until next level
+                                                </p>
+                                            </div>
+                                            <hr className="text-base-300 my-2" />
+                                            <p className="text-xs">{userInfo[0].xp | 0} xp</p>
+                                        </div>
+                                    </div>
+
+                                    <div className="stat">
+                                        <div className="stat-figure text-accent">
+                                            <FontAwesomeIcon
+                                                icon={faPencil}
+                                                className="text-4xl"
+                                            />
+                                        </div>
+                                        <div className="stat-title">
+                                            Reviews Written
+                                        </div>
+                                        <div className="stat-value text-accent">
+                                            3
+                                        </div>
                                     </div>
 
                                     <div className="stat">
                                         <div className="stat-figure text-secondary">
-                                            <FontAwesomeIcon icon={faBookBookmark} className="text-4xl" />
+                                            <FontAwesomeIcon
+                                                icon={faBookBookmark}
+                                                className="text-4xl"
+                                            />
                                         </div>
-                                        <div className="stat-title">Books Logged</div>
-                                        <div className="stat-value text-secondary">42</div>
-                                        <div className="stat-desc">21% more than last month</div>
+                                        <div className="stat-title">
+                                            Books Logged
+                                        </div>
+                                        <div className="stat-value text-secondary">
+                                            42
+                                        </div>
                                     </div>
                                 </div>
 
-                                <div className="flex gap-x-2">
-                                    <button className="btn btn-accent btn-sm rounded-md mt-5">New Review</button>
-                                    <button className="btn btn-secondary btn-sm rounded-md mt-5">Log Book</button>
+                                <div className="shadow rounded-lg text-zinc-700 mt-4">
+                                    <div className="p-5">
+                                        <h3>Favourites</h3>
+                                        <hr className="text-base-300 my-2"></hr>
+                                        <div className="flex items-center text-xs">
+                                            <FontAwesomeIcon icon={faUser} className="w-3 mr-0.5" />
+                                            <p><span className="font-bold">Author: </span>{userInfo[0].fav_author}</p>
+                                        </div>
+                                        <div className="flex items-center text-xs">
+                                            <FontAwesomeIcon icon={faBook} className="w-3 mr-0.5" />
+                                            <p><span className="font-bold">Book: </span>{userInfo[0].fav_book}</p>
+                                        </div>
+                             
+                                    </div>
+                                </div>
+
+                                <div className="shadow rounded-lg text-zinc-700 mt-4">
+                                    <div className="p-5">
+                                        <h3>About</h3>
+                                        <hr className="text-base-300 my-2"></hr>
+                                        <p className="text-xs">{userInfo[0].bio || "User doesn't have a bio"}</p>
+                                    </div>
                                 </div>
                             </div>
+
+                            <div className="shadow rounded-lg text-zinc-700 mt-4">
+                                <div className="p-5">
+                                    <h3>Preferred Genres</h3>
+                                    <hr className="text-base-300 my-2" />
+                                    <div className="flex flex-wrap gap-2">
+                                        {filteredGenres.map((genre, id) => (
+                                            <div
+                                                className="badge badge-primary badge-sm w-fit px-3 py-1 flex items-center gap-1"
+                                                key={id}
+                                            >
+                                                <FontAwesomeIcon icon={genre.icon} className="w-3" />
+                                                {genre.label}
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+
+
+
                         </div>
                     </div>
 
                     <div className="p-9 bg-base-100 container w-full mx-auto h-full lg:h-auto drop-shadow-md">
                         <div className="font-rubik">
                             <h2 className="text-xl font-normal mb-2">
-                                Newest Reviews
+                                xxppcashmoneygamergirlxx's reviews:
                             </h2>
                             <div className="divider"></div>
                             <ul className="list bg-base-100 rounded-box shadow-md">
@@ -226,7 +359,7 @@ export default async function App() {
                                     <p className="list-col-wrap text-xs">
                                         "Cappuccino" quickly gained attention
                                         for its smooth melody and relatable
-                                        themes. The song’s success propelled
+                                        themes. The song's success propelled
                                         Sabrino into the spotlight, solidifying
                                         their status as a rising star.
                                     </p>

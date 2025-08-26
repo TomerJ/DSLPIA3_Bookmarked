@@ -13,17 +13,19 @@ export async function getSession(elevated: boolean|null = true): Promise<RowData
     }
     console.log(sessionToken)
     const [sessionRes] = await connection.execute<RowDataPacket[]>(
-        "SELECT users.*, sessions.started_at, sessions.elevated_at FROM sessions JOIN users ON sessions.user = users.id WHERE sessions.session_token = ? AND sessions.started_at < ?",
+       "SELECT users.id AS user_id, users.username, users.email, users.firstname, users.lastname, users.privilege, users.avatar, users.dob, sessions.started_at, sessions.elevated_at, profiles.fav_book, profiles.fav_author, profiles.genres, profiles.xp, profiles.bio FROM sessions JOIN users ON sessions.user = users.id LEFT JOIN profiles ON users.id = profiles.user_id WHERE sessions.session_token = ? AND sessions.started_at < ?",
         [sessionToken, new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)]
     );
     connection.release();
     if(elevated) {
-        if(sessionRes[0].elevated_at < new Date(Date.now() + 10 * 60 * 1000)) {
+        console.log(sessionRes[0].elevated_at < new Date(Date.now() + 10 * 60 * 1000))
+        if(sessionRes[0].elevated_at && sessionRes[0].elevated_at < new Date(Date.now() + 10 * 60 * 1000)) {
             return sessionRes[0];
         } else {
-            return null
+            redirect('/elevate')
         }
     }
+
     return sessionRes[0];
     
 }
@@ -31,8 +33,15 @@ export async function SecurePage(elevated: boolean = false) {
 
 
     const session = await getSession()
+
+
     if (!session) {
         redirect('/login')
+    }
+    console.log(session.profile)
+    if(session.xp == null) {
+        
+        redirect('/register/profile')
     }
     console.log();
     //redirect("/app");

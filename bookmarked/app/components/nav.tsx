@@ -100,7 +100,7 @@ export default async function Navbar({
                                     </li>
                                     {userinfo?.privilege == "admin" && (
                                         <li>
-                                            <a className="flex items-center">
+                                            <a className="flex items-center" href="/admin/members">
                                                 <FontAwesomeIcon
                                                     icon={faGavel}
                                                 />{" "}

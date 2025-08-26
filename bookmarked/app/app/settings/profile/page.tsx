@@ -3,7 +3,7 @@ import { faCheck, faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import MainContainer from "../../../components/main";
 import Navbar from "../../../components/nav";
-import Genres from "../genres";
+import Genres from "../../../components/genres";
 
 export default function ProfileSettings({
     adminDefault = false,

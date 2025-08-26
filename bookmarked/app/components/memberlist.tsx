@@ -66,12 +66,6 @@ export default function Memberlist() {
                                             Admin
                                         </div>
                                     )}
-                                    {u.role === "regular" && (
-                                        <div className="badge badge-accent badge-xs">
-                                            <FontAwesomeIcon icon={faStar} className="h-1" />
-                                            Regular
-                                        </div>
-                                    )}
                                 </div>
                             </td>
                             <td>{u.xp} (Lvl. {u.level})</td>
