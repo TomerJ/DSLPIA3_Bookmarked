@@ -5,7 +5,7 @@ import {
     faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Navbar from "../components/nav";
+import Navbar from "../components/nav/nav";
 
 export default function Admin() {
     return (

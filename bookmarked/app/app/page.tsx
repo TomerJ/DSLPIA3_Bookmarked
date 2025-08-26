@@ -5,7 +5,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Navbar from "../components/nav";
+import Navbar from "../components/nav/nav";
 
 export default async function App() {
     return (
@@ -21,9 +21,7 @@ export default async function App() {
                             <h1 className="text-xl font-medium">
                                 Good Evening,
                             </h1>
-                            <h1 className="text-3xl font-black">
-                                Marvin Beak
-                            </h1>
+                            <h1 className="text-3xl font-black">Marvin Beak</h1>
 
                             <div className="stats shadow mt-4 w-full stats-vertical lg:stats-horizontal">
                                 <div className="stat">

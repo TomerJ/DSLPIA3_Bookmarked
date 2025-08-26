@@ -3,7 +3,7 @@
 import { faBan } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useActionState, useEffect, useState } from "react";
-import Navbar from "../../components/nav";
+import Navbar from "../../components/nav/nav";
 import { Login } from "./login";
 
 export default function LoginPage() {

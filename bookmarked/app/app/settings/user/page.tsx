@@ -2,7 +2,7 @@ import SettingsSidebar from "@/app/components/settingssidebar";
 import { faCheck, faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import MainContainer from "../../../components/main";
-import Navbar from "../../../components/nav";
+import Navbar from "../../../components/nav/nav";
 
 export default function Admin({
     adminDefault = false,

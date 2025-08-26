@@ -1,16 +1,8 @@
-import {
-    faBookBookmark,
-    faGavel,
-    faGears,
-    faHome,
-    faNewspaper,
-    faPencil,
-    faStar,
-    faUser,
-} from "@fortawesome/free-solid-svg-icons";
+import { faGavel, faGears, faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { GetUserInfo } from "../util/securepage";
-import Logout from "./logout";
+import { GetUserInfo } from "../../util/securepage";
+import Logout from "../logout";
+import Links from "./links";
 
 export default async function Navbar({
     showUser = true,
@@ -24,53 +16,14 @@ export default async function Navbar({
 
     return (
         <div className="navbar bg-base-100 shadow-sm h-20 px-4 z-100">
-            <div className="navbar-start h-full flex items-center  ">
+            <div className="navbar-start h-full flex items-center">
                 <img src="/bookmarked.svg" className="h-1/2" />
             </div>
 
             <div className="navbar-center hidden lg:flex">
-                <ul className="menu menu-horizontal px-1 font-rubik gap-x-1">
-                    <li>
-                        <a className="flex items-center menu-active">
-                            <FontAwesomeIcon className="h-3.5" icon={faHome} />{" "}
-                            Home
-                        </a>
-                    </li>
-                    <li>
-                        <a className="flex items-center">
-                            <FontAwesomeIcon
-                                className="h-3.5"
-                                icon={faNewspaper}
-                            />{" "}
-                            Announcements
-                        </a>
-                    </li>
-                    <li>
-                        <a className="flex items-center">
-                            <FontAwesomeIcon
-                                className="h-3.5 w-4"
-                                icon={faPencil}
-                            />{" "}
-                            Reviews
-                        </a>
-                    </li>
-                    <li>
-                        <a className="flex items-center">
-                            <FontAwesomeIcon
-                                className="h-3.5 w-4"
-                                icon={faBookBookmark}
-                            />{" "}
-                            My Reading
-                        </a>
-                    </li>
-                    <li>
-                        <a className="flex items-center">
-                            <FontAwesomeIcon className="h-3.5" icon={faUser} />{" "}
-                            Members
-                        </a>
-                    </li>
-                </ul>
+                <Links />
             </div>
+
             <div className="navbar-end">
                 {showUser && (
                     <ul className="menu menu-horizontal px-1 z-100">
@@ -82,17 +35,17 @@ export default async function Navbar({
                                             "base64"
                                         )}`}
                                         className="h-6 bg-base-200 rounded-sm p-1"
-                                    ></img>{" "}
+                                    />
                                     {userinfo?.username}
                                     {userinfo?.privilege == "admin" && (
                                         <div className="badge badge-neutral badge-sm">
-                                            <FontAwesomeIcon icon={faGavel} />
+                                            <FontAwesomeIcon icon={faGavel} />{" "}
                                             Admin
                                         </div>
                                     )}
                                     {userinfo?.privilege == "regular" && (
                                         <div className="badge badge-accent badge-sm">
-                                            <FontAwesomeIcon icon={faStar} />
+                                            <FontAwesomeIcon icon={faStar} />{" "}
                                             Regular
                                         </div>
                                     )}
@@ -114,7 +67,6 @@ export default async function Navbar({
                                             </a>
                                         </li>
                                     )}
-
                                     <li>
                                         <Logout />
                                     </li>

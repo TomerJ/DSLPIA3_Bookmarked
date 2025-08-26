@@ -1,8 +1,8 @@
 import { faGavel, faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { RowDataPacket } from "mysql2/promise";
-import Navbar from "../components/nav";
-import { systemPool } from "../util/connect";
+import Navbar from "../../components/nav/nav";
+import { systemPool } from "../../util/connect";
 
 export default async function RegisterPage() {
     const connection = await systemPool.getConnection();
@@ -89,7 +89,7 @@ export default async function RegisterPage() {
                                         </div>
                                         <a
                                             className="btn btn-sm btn-primary w-full rounded-sm mt-auto font-inter font-medium"
-                                            href={"/members/" + user.id}
+                                            href={"/app/members/" + user.id}
                                         >
                                             View Profile
                                         </a>
@@ -104,11 +104,33 @@ export default async function RegisterPage() {
                             type="radio"
                             name="options"
                             aria-label="1"
-                            defaultChecked={true} />
-                        <input className="join-item btn btn-square btn-sm" type="radio" name="options" aria-label="2" />
-                        <input disabled className="join-item btn btn-square btn-sm" type="radio" name="options" aria-label="..." />
-                        <input className="join-item btn btn-square btn-sm" type="radio" name="options" aria-label="4" />
-                        <input className="join-item btn btn-square btn-sm" type="radio" name="options" aria-label="5" />
+                            defaultChecked={true}
+                        />
+                        <input
+                            className="join-item btn btn-square btn-sm"
+                            type="radio"
+                            name="options"
+                            aria-label="2"
+                        />
+                        <input
+                            disabled
+                            className="join-item btn btn-square btn-sm"
+                            type="radio"
+                            name="options"
+                            aria-label="..."
+                        />
+                        <input
+                            className="join-item btn btn-square btn-sm"
+                            type="radio"
+                            name="options"
+                            aria-label="4"
+                        />
+                        <input
+                            className="join-item btn btn-square btn-sm"
+                            type="radio"
+                            name="options"
+                            aria-label="5"
+                        />
                     </div>
                 </div>
             </div>
