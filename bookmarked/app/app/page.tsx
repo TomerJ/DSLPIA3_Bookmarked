@@ -29,7 +29,7 @@ export default async function App() {
                                 {session.firstname} {session.lastname}
                             </h1>
 
-                            <div className="stats shadow mt-4 w-full stats-horizontal">
+                            <div className="stats shadow mt-4 w-full stats-vertical md:stats-horizontal">
                                 <Level xp={session.xp} />
 
                                 <div className="stat flex-1">
@@ -98,19 +98,6 @@ export default async function App() {
                                 </li>
                             </ul>
                         </div>
-                    </div>
-
-                    {/* Dock for mobile */}
-                    <div className="dock md:invisible">
-                        <button>
-                            <span className="dock-label">Home</span>
-                        </button>
-                        <button className="dock-active">
-                            <span className="dock-label">Inbox</span>
-                        </button>
-                        <button>
-                            <span className="dock-label">Settings</span>
-                        </button>
                     </div>
                 </div>
             </div>

@@ -1,5 +1,5 @@
 "use server";
-
+// snappy
 import { systemPool } from "@util/connect";
 import argon2 from "argon2";
 import * as crypto from "crypto";
@@ -17,16 +17,19 @@ export async function Login(_: any, data: FormData) {
             data,
         };
     }
+
+    // trim to remove trailing spaces
     username = username.trim();
-    password = password.trim();
 
     const connection = await systemPool.getConnection();
 
+    // get user record from username
     const [userRes] = await connection.execute<RowDataPacket[]>(
         "SELECT * FROM users WHERE username = ?",
         [username]
     );
 
+    // check if no users were returned or if password hash does not match
     if (
         userRes.length == 0 ||
         !(await argon2.verify(userRes[0].password, password))
@@ -37,6 +40,7 @@ export async function Login(_: any, data: FormData) {
         };
     }
 
+    // create a new session and reference it as a cookie
     const key = crypto.randomBytes(96).toString("base64");
     await connection.execute(
         "INSERT INTO sessions (user, session_token) VALUES (?, ?)",

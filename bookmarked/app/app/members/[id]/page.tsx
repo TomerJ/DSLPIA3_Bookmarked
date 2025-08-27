@@ -59,8 +59,8 @@ export default async function App({ params }: { params: { id: string } }) {
                 style={{ minHeight: "calc(100vh - 5rem)" }}
             >
                 <div className="lg:w-5/6 w-full p-2 lg:h-fit mx-auto my-auto flex flex-col gap-y-4">
-                    <div className="w-full mx-auto flex gap-x-4 items-stretch">
-                        <div className="w-1/3 bg-base-100 p-6 drop-shadow-md flex flex-col items-center justify-start">
+                    <div className="w-full mx-auto sm:flex-row flex flex-col gap-x-4 items-stretch">
+                        <div className="w-full sm:w-1/3 bg-base-100 p-6 drop-shadow-md flex flex-col items-center justify-start">
                             <div className="font-rubik flex flex-col items-center mt-3 h-full">
                                 <img
                                     src={`data:image/png;base64,${userInfo[0].avatar.toString(
@@ -72,21 +72,23 @@ export default async function App({ params }: { params: { id: string } }) {
                                     {userInfo[0].username}
                                 </h1>
                                 <div className="flex gap-x-1 mt-2">
-                                    <div className="badge badge-neutral badge-sm">
-                                        <FontAwesomeIcon
-                                            icon={faGavel}
-                                            className="w-3"
-                                        />{" "}
-                                        Admin
-                                    </div>
+                                    {userInfo[0].privilege == "admin" && (
+                                        <div className="badge badge-neutral badge-sm">
+                                            <FontAwesomeIcon
+                                                icon={faGavel}
+                                                className="w-3"
+                                            />{" "}
+                                            Admin
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </div>
 
-                        <div className="w-2/3 bg-base-100 p-6 drop-shadow-md flex flex-col justify-between">
+                        <div className="w-full sm:w-2/3  mt-3 sm:mt-0 bg-base-100 p-6 drop-shadow-md flex flex-col justify-between">
                             <div className="font-rubik">
                                 <Activity />
-                                <div className="stats shadow mt-4 w-full stats-vertical lg:stats-horizontal">
+                                <div className="stats shadow mt-4 w-full stats-vertical md:stats-horizontal">
                                     <Level xp={userInfo[0].xp} />
                                     <div className="stat">
                                         <div className="stat-figure text-accent">

@@ -1,24 +1,14 @@
+import { SecureProfileCreatePage } from "@/app/util/securepage";
 import MainContainer from "../../components/main";
 import Navbar from "../../components/nav/nav";
 import ProfileForm from "./form";
 
-export default function ProfileSettings({
-    adminDefault = false,
-    user = {
-        id: 1,
-        name: "YOOOO",
-    },
-}: {
-    user?: {
-        id: number;
-        name: string;
-    };
-    status?: (message: string, type: "success" | "danger" | "warning") => void;
-    adminDefault?: boolean;
-}) {
+export default async function ProfileSettings() {
+    await SecureProfileCreatePage();
     return (
         <>
             <Navbar showUser={false} />
+
             <div
                 className="flex min-h-[calc(100vh-5rem)] w-full"
                 style={{ height: "calc(100vh - 5rem)" }}

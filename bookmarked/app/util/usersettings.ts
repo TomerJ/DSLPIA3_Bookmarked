@@ -8,6 +8,7 @@ import { getSession } from "./securepage";
 
 export async function setProfileSettings(_: any, data: FormData) {
 
+    // ensure user is authenticated before making changes
     const connection = await systemPool.getConnection();
     const session = await getSession()
     if (!session) {
@@ -42,7 +43,7 @@ export async function setProfileSettings(_: any, data: FormData) {
 
 
 export async function setPassword(_: any, data: FormData) {
-
+    // ensure user is authenticated before making changes
     const connection = await systemPool.getConnection();
     const session = await getSession()
     if (!session) {
@@ -65,6 +66,7 @@ export async function setPassword(_: any, data: FormData) {
         };
     }
 
+    // validate password to check if its < 8 chars
     if (newPassword.length < 8) {
         return {
             error: "For security reasons, passwords must consist of 8 or more characters.",
@@ -73,6 +75,7 @@ export async function setPassword(_: any, data: FormData) {
     }
 
 
+    // check if password confirm matches
     if (newPassword != newPasswordConfirm) {
         return {
             error: "New password does not match",
@@ -85,6 +88,7 @@ export async function setPassword(_: any, data: FormData) {
         [session.user_id]
     );
 
+    // authenticate with old password before updating
     if (
         userRes.length == 0 ||
         !(await argon2.verify(userRes[0].password, password))
@@ -96,6 +100,7 @@ export async function setPassword(_: any, data: FormData) {
     }
 
 
+    // update with a hashed version of the new password
     await connection.execute<ResultSetHeader>(
         "UPDATE users SET password = ? WHERE id = ?",
         [
@@ -116,7 +121,7 @@ export async function setPassword(_: any, data: FormData) {
 
 
 export async function setUserSettings(_: any, data: FormData) {
-
+    // ensure user is authenticated before making changes
     const connection = await systemPool.getConnection();
     const session = await getSession()
     if (!session) {
@@ -140,6 +145,8 @@ export async function setUserSettings(_: any, data: FormData) {
             data,
         };
     }
+
+    // validate username to be alphanumeric with max 22 chars
 
     const userCheck = /^[a-zA-Z0-9_]+$/;
     username = username.trim()

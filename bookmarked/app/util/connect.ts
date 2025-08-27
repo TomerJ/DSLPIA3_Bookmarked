@@ -14,8 +14,8 @@ export const pool = mysql.createPool({
 
 export const adminPool = mysql.createPool({
     host: process.env.DB_HOST,
-    user: process.env.DB_SYSTEM_USER,
-    password: process.env.DB_SYSTEM_PASSWORD,
+    user: process.env.DB_ELEVATED_USER,
+    password: process.env.DB_ELEVATED_PASSWORD,
     database: process.env.DB_NAME,
     waitForConnections: true,
     connectionLimit: 10,

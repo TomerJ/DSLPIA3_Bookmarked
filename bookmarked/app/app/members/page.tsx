@@ -73,7 +73,12 @@ export default async function RegisterPage() {
                                                     )}
 
                                                     <div className="font-inter text-xs">
-                                                        <p>Lvl. 40</p>
+                                                        <p>
+                                                            Lvl.
+                                                            {Math.floor(
+                                                                user.xp / 100
+                                                            )}
+                                                        </p>
                                                     </div>
                                                 </div>
                                             </div>

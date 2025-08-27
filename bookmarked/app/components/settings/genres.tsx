@@ -22,7 +22,6 @@ export default function Genres({ defaultGenres = [], onChange }: GenresProps) {
         useState<string[]>(defaultGenres);
     const [query, setQuery] = useState("");
 
-    // 🔥 Whenever selectedGenres changes, sync with parent
     useEffect(() => {
         onChange?.(JSON.stringify(selectedGenres));
     }, [selectedGenres, onChange]);

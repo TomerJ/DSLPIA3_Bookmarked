@@ -101,9 +101,9 @@ export default function UserSettingsForm({
                 </div>
             </form>
             <hr className="text-base-300"></hr>
-            <div className="sm:flex gap-x-1 ">
+            <div className="sm:flex  ">
                 <button
-                    className="btn btn-sm btn-secondary rounded-md font-inter mb-1 sm:mt-0"
+                    className="btn btn-sm btn-secondary rounded-md font-inter sm:mb-1 sm:mt-0"
                     onClick={() => {
                         (
                             document.getElementById(

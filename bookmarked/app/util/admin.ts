@@ -363,10 +363,8 @@ export async function deleteUser(_: any, formData: FormData) {
 
     const connection = await adminPool.getConnection();
     try {
-        // Delete profile first (in case of foreign key)
         await connection.query("DELETE FROM profiles WHERE user_id = ?", [userId]);
 
-        // Delete user
         await connection.query("DELETE FROM users WHERE id = ?", [userId]);
 
         return { success: true };
@@ -376,4 +374,5 @@ export async function deleteUser(_: any, formData: FormData) {
     } finally {
         connection.release();
     }
+
 }

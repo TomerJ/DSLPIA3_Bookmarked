@@ -2,15 +2,19 @@ import { faGavel, faGears } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { GetUserInfo, getSession } from "../../util/securepage";
 import Logout from "../logout";
+import Dock from "./dock";
 import Elevated from "./elevated"; // client component
 import Links from "./links";
+import SettingsDock from "./settingsdock";
 
 export default async function Navbar({
     showUser = true,
     showElevated = false,
+    showSettingsDock = false,
 }: {
     showUser?: boolean;
     showElevated?: boolean;
+    showSettingsDock?: boolean;
 }) {
     let userinfo: any = null;
     let session: any = null;
@@ -23,7 +27,11 @@ export default async function Navbar({
     return (
         <div className="navbar bg-base-100 shadow-sm h-20 px-4 z-100">
             <div className="navbar-start h-full flex items-center">
-                <img src="/bookmarked.png" className="h-1/2" />
+                <img
+                    src="/bookmarked.png"
+                    className="h-1/2"
+                    alt="Bookmarked Logo"
+                />
             </div>
 
             <div className="navbar-center hidden lg:flex">
@@ -33,6 +41,7 @@ export default async function Navbar({
             <div className="navbar-end">
                 {showUser && userinfo && (
                     <>
+                        {showSettingsDock ? <SettingsDock /> : <Dock />}
                         {session?.elevated_at && showElevated && (
                             <div className="font-mono text-red-500 text-sm">
                                 <Elevated elevatedAt={session.elevated_at} />

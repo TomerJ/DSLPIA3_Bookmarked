@@ -21,9 +21,11 @@ export default async function ProfileSettings() {
     );
 
     connection.release();
+
+    const { avatar, ...userInfo } = profile[0];
     return (
         <>
-            <Navbar />
+            <Navbar showSettingsDock={true} />
             <div
                 className="flex min-h-[calc(100vh-5rem)] w-full"
                 style={{ height: "calc(100vh - 5rem)" }}
@@ -35,7 +37,7 @@ export default async function ProfileSettings() {
                         <div className="divider my-0 mb-1"></div>
                         <div className="flex gap-x-8 flex-col lg:flex-row">
                             <div className="w-full">
-                                <ProfileSettingsForm userId={session.user_id} />
+                                <ProfileSettingsForm userData={userInfo} />
                             </div>
                         </div>
                     </MainContainer>

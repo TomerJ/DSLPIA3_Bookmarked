@@ -1,8 +1,10 @@
 import AdminSidebar from "@/app/components/admin/adminsidebar";
+import { SecurePage } from "@/app/util/securepage";
 import Navbar from "../../components/nav/nav";
 import { Members } from "./members";
 
 export default async function Admin() {
+    SecurePage(true);
     return (
         <>
             <Navbar showElevated={true} />

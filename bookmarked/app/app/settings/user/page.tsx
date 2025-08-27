@@ -7,7 +7,7 @@ import MainContainer from "../../../components/main";
 import Navbar from "../../../components/nav/nav";
 import UserSettingsForm from "./form";
 
-export default async function Admin() {
+export default async function UserSettings() {
     const connection = await systemPool.getConnection();
     const session = await getSession();
     if (!session) {
@@ -24,7 +24,7 @@ export default async function Admin() {
     const { avatar, ...userInfo } = user[0];
     return (
         <>
-            <Navbar />
+            <Navbar showSettingsDock={true} />
 
             <div
                 className="flex min-h-[calc(100vh-5rem)] w-full"

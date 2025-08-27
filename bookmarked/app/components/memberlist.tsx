@@ -19,11 +19,15 @@ import ManageProgress from "./modals/progress";
 export default function Memberlist({ sessionUser }: { sessionUser: number }) {
     const [users, setUsers] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
-    const [selectedUserId, setSelectedUserId] = useState<number>(1);
+    const [selectedUser, setSelectedUser] = useState<{
+        id: number;
+        action: string;
+    } | null>(null);
     const [toastList, setToastList] = useState<
         { id: number; type: "error" | "success"; message: string }[]
     >([]);
 
+    // show toast notification
     const showToast = (type: "error" | "success", message: string) => {
         const id = Date.now();
         setToastList((prev) => [...prev, { id, type, message }]);
@@ -32,69 +36,65 @@ export default function Memberlist({ sessionUser }: { sessionUser: number }) {
         }, 3000);
     };
 
-    const openManageProgress = (userId: number) => {
-        setSelectedUserId(userId);
-        const dialog = document.getElementById(
-            "manage_progress"
-        ) as HTMLDialogElement;
-        dialog?.showModal();
-    };
-
-    const openEditPermissions = (userId: number) => {
-        if (userId === sessionUser) {
-            showToast("error", "You cannot edit your own privileges.");
+    // handle action selection
+    const handleAction = (userId: number, action: string) => {
+        if (
+            (action === "edit_permissions" || action === "delete_user") &&
+            userId === sessionUser
+        ) {
+            showToast(
+                "error",
+                `You cannot ${action.replace("_", " ")} your own account.`
+            );
             return;
         }
-        setSelectedUserId(userId);
-        const dialog = document.getElementById(
-            "edit_perms"
-        ) as HTMLDialogElement;
-        dialog?.showModal();
+        setSelectedUser({ id: userId, action });
     };
 
-    const openEditUser = (userId: number) => {
-        setSelectedUserId(userId);
-        const dialog = document.getElementById(
-            "edit_user"
-        ) as HTMLDialogElement;
-        dialog?.showModal();
-    };
-
-    const openEditProfile = (userId: number) => {
-        setSelectedUserId(userId);
-        const dialog = document.getElementById(
-            "edit_profile"
-        ) as HTMLDialogElement;
-        dialog?.showModal();
-    };
-
-    const openEditBirthday = (userId: number) => {
-        setSelectedUserId(userId);
-        const dialog = document.getElementById(
-            "edit_birthday"
-        ) as HTMLDialogElement;
-        dialog?.showModal();
-    };
-
-    const openDeleteUser = (userId: number) => {
-        if (userId === sessionUser) {
-            showToast("error", "You cannot delete your own account.");
-            return;
-        }
-        setSelectedUserId(userId);
-        const dialog = document.getElementById(
-            "delete_user"
-        ) as HTMLDialogElement;
-        dialog?.showModal();
-    };
-
+    // load users
     useEffect(() => {
         (async () => {
-            const res = await getUsers();
-            setUsers(res.users as any[]);
-            setLoading(false);
+            try {
+                const u = await getUsers();
+                const loadedUsers =
+                    u.users?.map((u: any) => ({
+                        user_id: u.user_id,
+                        firstname: u.firstname || "Unknown",
+                        lastname: u.lastname || "",
+                        username: u.username || "unknown",
+                        email: u.email || "-",
+                        dob: u.dob || "-",
+                        avatar: u.avatar || null,
+                        privilege: u.privilege || "user",
+                        xp: u.xp ?? null,
+                    })) || [];
+                setUsers(loadedUsers);
+            } catch {
+                showToast("error", "Failed to load users.");
+            } finally {
+                setLoading(false);
+            }
         })();
     }, []);
+
+    // open dialog when selectedUser changes
+    useEffect(() => {
+        if (!selectedUser) return;
+
+        const dialogIdMap: Record<string, string> = {
+            manage_progress: "manage_progress",
+            edit_permissions: "edit_perms",
+            edit_user: "edit_user",
+            edit_profile: "edit_profile",
+            edit_birthday: "edit_birthday",
+            delete_user: "delete_user",
+        };
+
+        const dialog = document.getElementById(
+            dialogIdMap[selectedUser.action]
+        ) as HTMLDialogElement;
+        dialog?.showModal();
+    }, [selectedUser]);
 
     if (loading) {
         return (
@@ -117,22 +117,34 @@ export default function Memberlist({ sessionUser }: { sessionUser: number }) {
                             t.type === "error" ? "alert-error" : "alert-success"
                         }`}
                     >
-                        <span>
-                            <FontAwesomeIcon
-                                icon={t.type === "error" ? faX : faCheck}
-                                className="mr-1 h-3.5 w-3.5"
-                            />{" "}
-                            {t.message}
-                        </span>
+                        <FontAwesomeIcon
+                            icon={t.type === "error" ? faX : faCheck}
+                            className="mr-1 h-3.5 w-3.5"
+                        />{" "}
+                        {t.message}
                     </div>
                 ))}
             </div>
-            <ManageProgress userId={selectedUserId} />
-            <EditPrivileges userId={selectedUserId} />
-            <EditUser userId={selectedUserId} />
-            <EditProfile userId={selectedUserId} />
-            <EditBirthday userId={selectedUserId} />
-            <DeleteUser userId={selectedUserId} /> {/* Added modal */}
+
+            {selectedUser?.action === "manage_progress" && (
+                <ManageProgress userId={selectedUser.id} />
+            )}
+            {selectedUser?.action === "edit_permissions" && (
+                <EditPrivileges userId={selectedUser.id} />
+            )}
+            {selectedUser?.action === "edit_user" && (
+                <EditUser userId={selectedUser.id} />
+            )}
+            {selectedUser?.action === "edit_profile" && (
+                <EditProfile userId={selectedUser.id} />
+            )}
+            {selectedUser?.action === "edit_birthday" && (
+                <EditBirthday userId={selectedUser.id} />
+            )}
+            {selectedUser?.action === "delete_user" && (
+                <DeleteUser userId={selectedUser.id} />
+            )}
+
             <table className="table table-zebra table-xs w-full min-w-[700px]">
                 <thead>
                     <tr className="font-inter text-xs">
@@ -147,11 +159,15 @@ export default function Memberlist({ sessionUser }: { sessionUser: number }) {
                     </tr>
                 </thead>
                 <tbody>
-                    {users.map((u, k) => (
-                        <tr key={k}>
+                    {users.map((u) => (
+                        <tr key={u.user_id}>
                             <td>
                                 <img
-                                    src={`data:image/png;base64,${u?.avatar}`}
+                                    src={
+                                        u.avatar
+                                            ? `data:image/png;base64,${u.avatar}`
+                                            : "/default-avatar.png"
+                                    }
                                     className="h-6 w-6 bg-base-200 rounded-sm p-1"
                                     alt="avatar"
                                 />
@@ -190,10 +206,8 @@ export default function Memberlist({ sessionUser }: { sessionUser: number }) {
                                 </div>
                             </td>
                             <td>
-                                {u.xp && u.xp > 0 ? (
-                                    <span>
-                                        {u.xp} (Lvl. {Math.floor(u.xp / 100)})
-                                    </span>
+                                {u.xp != null ? (
+                                    `${u.xp} (Lvl. ${Math.floor(u.xp / 100)})`
                                 ) : (
                                     <span className="text-red-500">
                                         No Profile
@@ -201,75 +215,42 @@ export default function Memberlist({ sessionUser }: { sessionUser: number }) {
                                 )}
                             </td>
                             <td>
-                                <div className="w-full">
-                                    <select
-                                        className="select select-sm focus:outline-none join-item"
-                                        defaultValue=""
-                                        onChange={(e) => {
-                                            const action = e.target.value;
-                                            if (!action) return;
-
-                                            switch (action) {
-                                                case "view_profile":
-                                                    window.open(
-                                                        `/app/members/${u.user_id}`,
-                                                        "_blank",
-                                                        "width=800,height=600,menubar=no,toolbar=no,location=yes,resizable=yes"
-                                                    );
-                                                    break;
-                                                case "manage_progress":
-                                                    openManageProgress(
-                                                        u.user_id
-                                                    );
-                                                    break;
-                                                case "edit_permissions":
-                                                    openEditPermissions(
-                                                        u.user_id
-                                                    );
-                                                    break;
-                                                case "edit_user":
-                                                    openEditUser(u.user_id);
-                                                    break;
-                                                case "edit_profile":
-                                                    openEditProfile(u.user_id);
-                                                    break;
-                                                case "edit_birthday":
-                                                    openEditBirthday(u.user_id);
-                                                    break;
-                                                case "delete_user": // Added delete case
-                                                    openDeleteUser(u.user_id);
-                                                    break;
-                                            }
-
+                                <select
+                                    className="select select-sm focus:outline-none join-item"
+                                    defaultValue=""
+                                    onChange={(e) => {
+                                        if (e.target.value) {
+                                            handleAction(
+                                                u.user_id,
+                                                e.target.value
+                                            );
                                             e.target.value = "";
-                                        }}
-                                    >
-                                        <option value="" disabled>
-                                            Select an action...
-                                        </option>
-                                        <option value="view_profile">
-                                            View Profile
-                                        </option>
-                                        <option value="manage_progress">
-                                            Manage Progress
-                                        </option>
-                                        <option value="edit_permissions">
-                                            Edit Privileges
-                                        </option>
-                                        <option value="edit_user">
-                                            Edit User
-                                        </option>
-                                        <option value="edit_profile">
-                                            Edit Profile
-                                        </option>
-                                        <option value="edit_birthday">
-                                            Edit Birthday
-                                        </option>
-                                        <option value="delete_user">
-                                            Delete User
-                                        </option>{" "}
-                                    </select>
-                                </div>
+                                        }
+                                    }}
+                                >
+                                    <option value="" disabled>
+                                        Select an action...
+                                    </option>
+                                    <option value="view_profile">
+                                        View Profile
+                                    </option>
+                                    <option value="manage_progress">
+                                        Manage Progress
+                                    </option>
+                                    <option value="edit_permissions">
+                                        Edit Privileges
+                                    </option>
+                                    <option value="edit_user">Edit User</option>
+                                    <option value="edit_profile">
+                                        Edit Profile
+                                    </option>
+                                    <option value="edit_birthday">
+                                        Edit Birthday
+                                    </option>
+                                    <option value="delete_user">
+                                        Delete User
+                                    </option>
+                                </select>
                             </td>
                         </tr>
                     ))}

@@ -12,6 +12,7 @@ import { getSession } from "../util/securepage";
 export async function ValidateCode(_: any, data: FormData) {
     const connection = await systemPool.getConnection();
     let code = data.get("accesscode") as string | null;
+    // check if access code is present within database
     const [accessCodeCheck] = await connection.execute<RowDataPacket[]>(
         "SELECT * FROM access_codes WHERE code = ?",
         [code]
@@ -48,6 +49,7 @@ export async function CreateProfile(_: any, data: FormData) {
     redirect("/app");
 }
 export async function Register(_: any, data: FormData) {
+    // check access code before account is actually created
     if (!(await ValidateCode(null, data)).success) {
         return {
             error: "Invalid access code",
@@ -85,9 +87,8 @@ export async function Register(_: any, data: FormData) {
             data,
         };
     }
-
+    // restrict usernames / passwords
     email = email.trim();
-    password = password.trim();
     const userCheck = /^[a-zA-Z0-9_]+$/;
 
     if (!userCheck.test(username) || username.length > 22) {
@@ -108,6 +109,7 @@ export async function Register(_: any, data: FormData) {
         backColor: "#ffffff",
     });
 
+    // check password against confirmation to verify accuracy of data
     if (password != confirmpassword.trim()) {
         return {
             error: "The specified passwords do not match.",
@@ -131,6 +133,7 @@ export async function Register(_: any, data: FormData) {
     dob.month = dob.month.padStart(2, "0");
     dob.day = dob.day.padStart(2, "0");
 
+    // birthday validation
     if (
         dob.year.length !== 4 ||
         !/^\d{4}$/.test(dob.year) ||
@@ -152,15 +155,13 @@ export async function Register(_: any, data: FormData) {
             username,
             firstname.charAt(0).toUpperCase() +
                 firstname.slice(1).toLowerCase(),
-            lastname.charAt(0).toUpperCase() + lastname.slice(1).toLowerCase(),
+            lastname.charAt(0).toUpperCase() + lastname.slice(1).toLowerCase(), // make the first letter capital but the rest lowercase
             email,
             png,
-            await argon2.hash(password),
+            await argon2.hash(password), // hash the password
             date,
         ]
     );
-
-    const userId = userResult.insertId;
 
     connection.release();
     redirect("/app");

@@ -11,7 +11,7 @@ export default function Elevated({ elevatedAt }: ElevatedProps) {
 
     useEffect(() => {
         if (elevatedAt) {
-            setTargetTime(new Date(elevatedAt).getTime() + 3 * 60 * 60 * 1000);
+            setTargetTime(new Date(elevatedAt).getTime() + 20 * 60 * 1000);
         }
     }, [elevatedAt]);
 
@@ -45,7 +45,6 @@ function Countdown({ targetTime }: { targetTime: number }) {
         <div>
             <span>Elevation expires in: </span>
             <span className="countdown">
-                {timeLeft.h.toString().padStart(2, "0")}h
                 {timeLeft.m.toString().padStart(2, "0")}m
                 {timeLeft.s.toString().padStart(2, "0")}s
             </span>
